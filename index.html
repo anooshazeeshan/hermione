@@ -1,0 +1,3468 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="hermione">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hermione Jean Granger — The Brightest Witch of Her Age</title>
+    <meta name="description" content="A world-class cinematic interactive chronicle of Hermione Jean Granger's complete storyline, lore, magical profile, and psychological depth.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           DUAL-UNIVERSE CINEMATIC TOKENS (HERMIONE GRANGER vs MR. ROBOT)
+           ========================================================================== */
+        :root[data-theme="hermione"] {
+            --bg-void: #060405;
+            --bg-deep: #0f0a0d;
+            --bg-surface: rgba(22, 14, 18, 0.78);
+            --bg-card: rgba(28, 18, 22, 0.85);
+            --bg-glass: rgba(35, 22, 27, 0.65);
+            --text-primary: #fbf5ec;
+            --text-secondary: #d6c6b4;
+            --text-muted: #8e7c6d;
+            --accent-gold: #e8b959;
+            --accent-gold-bright: #ffd475;
+            --accent-amber: #ff9d42;
+            --accent-crimson: #9e222b;
+            --accent-patronus: #6ce5ff;
+            --border-subtle: rgba(232, 185, 89, 0.24);
+            --border-bright: rgba(232, 185, 89, 0.85);
+            --glow-primary: rgba(232, 185, 89, 0.38);
+            --glow-patronus: rgba(108, 229, 255, 0.55);
+            --font-display: 'Cinzel Decorative', serif;
+            --font-editorial: 'Cormorant Garamond', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        :root[data-theme="mrrobot"] {
+            --bg-void: #030507;
+            --bg-deep: #080c11;
+            --bg-surface: rgba(12, 18, 25, 0.84);
+            --bg-card: rgba(16, 24, 33, 0.88);
+            --bg-glass: rgba(18, 28, 38, 0.68);
+            --text-primary: #eef6f9;
+            --text-secondary: #9bb4c2;
+            --text-muted: #59707d;
+            --accent-gold: #ff2a54;
+            --accent-gold-bright: #ff5e7e;
+            --accent-amber: #00f0ff;
+            --accent-crimson: #ff0055;
+            --accent-patronus: #00ff9d;
+            --border-subtle: rgba(255, 42, 84, 0.28);
+            --border-bright: rgba(0, 240, 255, 0.85);
+            --glow-primary: rgba(255, 42, 84, 0.45);
+            --glow-patronus: rgba(0, 255, 157, 0.55);
+            --font-display: 'Space Mono', monospace;
+            --font-editorial: 'Cormorant Garamond', serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: auto;
+            background-color: var(--bg-void);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            overflow-x: clip;
+        }
+
+        body {
+            background-color: var(--bg-void);
+            color: var(--text-primary);
+            overflow-x: clip;
+            line-height: 1.6;
+        }
+
+        ::selection {
+            background: var(--accent-gold);
+            color: #060405;
+        }
+
+        /* Ambient Canvases */
+        #ambient-canvas,
+        #cursor-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        #ambient-canvas {
+            z-index: 0;
+            opacity: 0.85;
+        }
+
+        #cursor-canvas {
+            z-index: 9998;
+        }
+
+        .custom-cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 32px;
+            height: 32px;
+            border: 1.5px solid var(--accent-gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.25s cubic-bezier(0.16, 1, 0.3, 1), height 0.25s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease, border-color 0.25s ease;
+            box-shadow: 0 0 18px var(--glow-primary);
+            mix-blend-mode: screen;
+        }
+
+        .custom-cursor-ring.cursor-hover {
+            width: 58px;
+            height: 58px;
+            background: rgba(232, 185, 89, 0.16);
+            border-color: var(--accent-patronus);
+            box-shadow: 0 0 25px var(--glow-patronus);
+        }
+
+        /* Top Global Scroll Progress */
+        .global-progress-track {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1005;
+        }
+
+        .global-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-crimson), var(--accent-gold), var(--accent-patronus));
+            box-shadow: 0 0 14px var(--accent-gold);
+        }
+
+        /* Top Navigation Header (Inspired by Luxury Perfume Showcase) */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1rem 3.5vw;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            background: linear-gradient(180deg, rgba(6, 4, 5, 0.94) 0%, rgba(6, 4, 5, 0.75) 75%, transparent 100%);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(232, 185, 89, 0.14);
+            transition: all 0.3s ease;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.85rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .brand-crest {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid var(--accent-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 35% 35%, rgba(232, 185, 89, 0.25), rgba(15, 10, 13, 0.95));
+            box-shadow: 0 0 18px var(--glow-primary);
+            font-size: 1.25rem;
+        }
+
+        .brand-text-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+
+        .brand-sub {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 2.2px;
+            text-transform: uppercase;
+        }
+
+        .nav-center-menu {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: rgba(16, 10, 13, 0.85);
+            border: 1px solid var(--border-subtle);
+            padding: 0.32rem;
+            border-radius: 999px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 0.45rem 0.95rem;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.8px;
+        }
+
+        .nav-btn:hover {
+            color: var(--accent-gold);
+        }
+
+        .nav-btn.active {
+            background: var(--accent-gold);
+            color: #060405;
+            font-weight: 700;
+            box-shadow: 0 0 16px var(--glow-primary);
+        }
+
+        .nav-actions-right {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .audio-toggle-btn {
+            background: rgba(232, 185, 89, 0.1);
+            border: 1px solid var(--border-subtle);
+            color: var(--accent-gold);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            transition: all 0.3s ease;
+        }
+
+        .audio-toggle-btn:hover {
+            background: rgba(232, 185, 89, 0.22);
+            box-shadow: 0 0 16px var(--glow-primary);
+        }
+
+        .audio-wave-bars {
+            display: inline-flex;
+            gap: 2px;
+            height: 12px;
+            align-items: flex-end;
+        }
+
+        .audio-bar {
+            width: 2px;
+            background: var(--accent-gold);
+            border-radius: 1px;
+            animation: audioBounce 1.2s infinite ease-in-out;
+        }
+        .audio-bar:nth-child(1) { height: 6px; animation-delay: 0.1s; }
+        .audio-bar:nth-child(2) { height: 12px; animation-delay: 0.25s; }
+        .audio-bar:nth-child(3) { height: 8px; animation-delay: 0.4s; }
+
+        .audio-toggle-btn.muted .audio-bar {
+            animation: none;
+            height: 3px;
+            background: var(--text-muted);
+        }
+
+        .universe-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            padding: 0.28rem;
+            border-radius: 999px;
+        }
+
+        .uni-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 0.42rem 0.85rem;
+            border-radius: 999px;
+            font-size: 0.74rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .uni-btn.active {
+            background: linear-gradient(135deg, var(--accent-gold), var(--accent-amber));
+            color: #060405;
+            box-shadow: 0 0 16px var(--glow-primary);
+        }
+
+        /* Floating Engine HUD */
+        .engine-status-hud {
+            position: fixed;
+            bottom: 1.8rem;
+            left: 2rem;
+            z-index: 950;
+            background: rgba(12, 8, 10, 0.9);
+            border: 1px solid var(--border-subtle);
+            backdrop-filter: blur(18px);
+            border-radius: 16px;
+            padding: 0.8rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.95rem;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.75);
+            max-width: 420px;
+        }
+
+        .hud-pulse-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-gold);
+            box-shadow: 0 0 14px var(--accent-gold);
+            animation: hudPulse 1.6s infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes hudPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.45); opacity: 0.55; }
+        }
+
+        .hud-engine-code {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--accent-gold);
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+        }
+
+        .hud-engine-name {
+            font-size: 0.84rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Section Eyebrow & Watermark */
+        .section-eyebrow {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.4rem 1.1rem;
+            border-radius: 999px;
+            background: rgba(232, 185, 89, 0.12);
+            border: 1px solid var(--border-subtle);
+            margin-bottom: 1.2rem;
+        }
+
+        .watermark-script {
+            position: absolute;
+            font-family: var(--font-editorial);
+            font-style: italic;
+            font-size: clamp(6rem, 15vw, 15rem);
+            color: rgba(232, 185, 89, 0.04);
+            pointer-events: none;
+            user-select: none;
+            white-space: nowrap;
+            z-index: 0;
+            line-height: 0.85;
+        }
+
+        /* ==========================================================================
+           ENGINE 1: 3D Z-AXIS DEPTH-OF-FIELD CAMERA FLY-THROUGH (6 PLANES)
+           ========================================================================== */
+        .engine1-scroll-track {
+            position: relative;
+            height: 700vh;
+            z-index: 5;
+        }
+
+        .engine1-sticky-viewport {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: clip;
+            perspective: 1200px;
+            perspective-origin: 50% 50%;
+            transform-style: preserve-3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .astral-portal-bg {
+            position: absolute;
+            width: 860px;
+            height: 860px;
+            pointer-events: none;
+            opacity: 0.22;
+        }
+
+        .z-plane {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5.5rem 4vw 2rem 4vw;
+            transform-style: preserve-3d;
+            will-change: transform, opacity, filter;
+            pointer-events: none;
+            backface-visibility: hidden;
+            transition: opacity 0.12s ease-out;
+        }
+
+        .z-plane.plane-active {
+            pointer-events: auto;
+        }
+
+        /* PLANE 0: Full-screen hero split layout */
+        .hero-z-layout {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+            max-width: 1280px;
+        }
+
+        .hero-editorial-col { text-align: left; }
+
+        .hero-main-title {
+            font-family: var(--font-editorial);
+            font-size: clamp(3.2rem, 6.5vw, 6.2rem);
+            font-weight: 600;
+            line-height: 0.96;
+            letter-spacing: -1.5px;
+            margin-bottom: 1.6rem;
+        }
+
+        .hero-main-title em {
+            font-style: italic;
+            color: var(--accent-gold);
+            font-weight: 400;
+            text-shadow: 0 0 40px var(--glow-primary);
+        }
+
+        .hero-lead-box {
+            font-size: clamp(1rem, 1.35vw, 1.22rem);
+            color: var(--text-secondary);
+            line-height: 1.78;
+            padding: 1.6rem 2rem;
+            background: var(--bg-surface);
+            border-left: 3px solid var(--accent-gold);
+            border-radius: 0 18px 18px 0;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+            margin-bottom: 1.8rem;
+        }
+
+        .hero-scroll-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            animation: scrollHintPulse 2.2s infinite ease-in-out;
+        }
+
+        @keyframes scrollHintPulse {
+            0%, 100% { opacity: 1; transform: translateY(0); }
+            50% { opacity: 0.55; transform: translateY(5px); }
+        }
+
+        .hero-photo-showcase {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 3 / 4.2;
+            margin: 0 auto;
+            border-radius: 999px 999px 32px 32px;
+            border: 2px solid var(--border-bright);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.92), 0 0 65px var(--glow-primary);
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 28%, rgba(232, 185, 89, 0.3), rgba(15, 10, 13, 0.98) 80%);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+        }
+
+        .hero-photo-showcase:hover {
+            transform: translateY(-10px) scale(1.025);
+            box-shadow: 0 50px 120px rgba(0, 0, 0, 0.96), 0 0 90px var(--glow-primary);
+        }
+
+        .hero-photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 18%;
+            filter: contrast(1.08) brightness(0.98);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .hero-photo-showcase:hover .hero-photo-img { transform: scale(1.06); }
+
+        .hero-photo-vignette {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 35%, transparent 40%, rgba(6, 4, 5, 0.82) 92%);
+            pointer-events: none;
+        }
+
+        .hero-photo-badge {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(12, 8, 10, 0.92);
+            border: 1px solid var(--accent-gold);
+            padding: 0.5rem 1.2rem;
+            border-radius: 999px;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--accent-gold);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            white-space: nowrap;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.85);
+        }
+
+        /* PLANES 1-5: Full-viewport two-column cards that fly toward camera */
+        .z-full-card {
+            width: 100%;
+            max-width: 1280px;
+            display: grid;
+            grid-template-columns: 1fr 1.05fr;
+            align-items: stretch;
+            background: linear-gradient(155deg, rgba(30, 18, 22, 0.95) 0%, rgba(10, 6, 8, 0.98) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 45px 110px rgba(0, 0, 0, 0.9), 0 0 60px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px);
+            transition: border-color 0.4s ease;
+            cursor: pointer;
+            min-height: min(68vh, 580px);
+        }
+
+        .z-full-card:hover { border-color: var(--border-bright); }
+
+        .z-full-card.layout-reverse {
+            grid-template-columns: 1.05fr 1fr;
+        }
+
+        .z-card-photo-side {
+            position: relative;
+            overflow: hidden;
+            background: #080507;
+        }
+
+        .z-card-photo-side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .z-full-card:hover .z-card-photo-side img { transform: scale(1.06); }
+
+        .z-card-photo-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(6,4,5,0) 0%, rgba(6,4,5,0.6) 100%);
+        }
+
+        .z-full-card.layout-reverse .z-card-photo-overlay {
+            background: linear-gradient(270deg, rgba(6,4,5,0) 0%, rgba(6,4,5,0.6) 100%);
+        }
+
+        .z-card-copy-side {
+            padding: 3.5rem 3.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .z-card-index {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 3px;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .z-card-index::before {
+            content: '';
+            display: block;
+            width: 28px;
+            height: 1.5px;
+            background: var(--accent-gold);
+        }
+
+        .z-card-title {
+            font-family: var(--font-editorial);
+            font-size: clamp(2.2rem, 3.8vw, 3.6rem);
+            font-weight: 700;
+            line-height: 1.08;
+            margin-bottom: 1.4rem;
+            color: var(--text-primary);
+        }
+
+        .z-card-title em {
+            font-style: italic;
+            color: var(--accent-gold);
+            text-shadow: 0 0 30px var(--glow-primary);
+        }
+
+        .z-card-body {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.76;
+            margin-bottom: 2rem;
+        }
+
+        .z-card-footer { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+
+        .z-card-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 0.38rem 0.95rem;
+            border-radius: 999px;
+            background: rgba(232, 185, 89, 0.12);
+            border: 1px solid var(--border-subtle);
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+            transition: all 0.25s ease;
+        }
+
+        .z-card-tag:hover { background: var(--accent-gold); color: #060405; }
+
+        .z-card-bg-num {
+            position: absolute;
+            bottom: 10px;
+            right: 22px;
+            font-family: var(--font-editorial);
+            font-size: 9rem;
+            font-weight: 900;
+            color: rgba(232, 185, 89, 0.045);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Notable attributes ribbon */
+        .notable-ribbon {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+            justify-content: center;
+        }
+
+        .notable-chip {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            padding: 0.42rem 1rem;
+            border-radius: 999px;
+            background: rgba(232, 185, 89, 0.12);
+            border: 1px solid var(--border-subtle);
+            color: var(--accent-gold);
+            letter-spacing: 1px;
+            transition: all 0.25s ease;
+        }
+
+        .notable-chip:hover {
+            background: var(--accent-gold);
+            color: #060405;
+            box-shadow: 0 0 16px var(--glow-primary);
+        }
+
+        /* Kept for other sections */
+        .real-card {
+            background: linear-gradient(165deg, rgba(35, 22, 27, 0.92) 0%, rgba(12, 8, 10, 0.97) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: 22px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.75);
+            transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .real-card:hover {
+            border-color: var(--border-bright);
+            box-shadow: 0 35px 85px rgba(0, 0, 0, 0.85), 0 0 35px var(--glow-primary);
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .card-photo-box {
+            width: 100%;
+            height: 195px;
+            border-radius: 14px;
+            margin-bottom: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(232, 185, 89, 0.25);
+        }
+
+        .card-photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .real-card:hover .card-photo-img { transform: scale(1.08); }
+
+        .card-num {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            margin-bottom: 0.4rem;
+        }
+
+        .card-title {
+            font-family: var(--font-editorial);
+            font-size: 1.68rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+            line-height: 1.2;
+        }
+
+        .card-desc {
+            font-size: 0.93rem;
+            color: var(--text-secondary);
+            line-height: 1.62;
+        }
+
+
+
+        /* ==========================================================================
+           ENGINE 2: PINNED HORIZONTAL SCROLL CINEMA & SPINNING TIME-TURNER
+           ========================================================================== */
+        .engine2-horizontal-section {
+            position: relative;
+            height: 1100vh;
+            z-index: 6;
+            background: linear-gradient(180deg, transparent 0%, rgba(18, 10, 14, 0.94) 8%, rgba(18, 10, 14, 0.96) 92%, transparent 100%);
+        }
+
+        .engine2-sticky-stage {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .engine2-top-bar {
+            position: absolute;
+            top: 4.8rem;
+            left: 5vw;
+            right: 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 25;
+            pointer-events: none;
+        }
+
+        .engine2-top-bar * {
+            pointer-events: auto;
+        }
+
+        .timeturner-widget {
+            display: flex;
+            align-items: center;
+            gap: 1.3rem;
+            background: rgba(22, 14, 18, 0.92);
+            border: 1.5px solid var(--border-bright);
+            padding: 0.65rem 1.6rem;
+            border-radius: 999px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.75), 0 0 30px var(--glow-primary);
+        }
+
+        .timeturner-svg {
+            width: 60px;
+            height: 60px;
+            overflow: visible;
+        }
+
+        .tt-ring-outer,
+        .tt-ring-mid,
+        .tt-hourglass {
+            transform-origin: 50% 50%;
+            transition: transform 0.08s linear;
+        }
+
+        .year-odometer {
+            font-family: var(--font-editorial);
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            line-height: 1;
+            text-shadow: 0 0 25px var(--glow-primary);
+        }
+
+        .horizontal-reel-track {
+            display: flex;
+            align-items: center;
+            gap: 6vw;
+            padding: 4.5rem 8vw 3.5rem 8vw;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .lore-cinema-panel {
+            width: 86vw;
+            max-width: 1320px;
+            height: 72vh;
+            min-height: 520px;
+            background: linear-gradient(165deg, rgba(26, 16, 21, 0.96) 0%, rgba(10, 6, 8, 0.98) 100%);
+            border: 1.5px solid var(--border-subtle);
+            border-radius: 30px;
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            overflow: hidden;
+            box-shadow: 0 45px 120px rgba(0, 0, 0, 0.92);
+            position: relative;
+            flex-shrink: 0;
+            backdrop-filter: blur(24px);
+            transition: border-color 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, opacity 0.5s ease;
+            opacity: 0.45;
+            transform: scale(0.96);
+        }
+
+        .lore-cinema-panel.active-cinema-panel {
+            opacity: 1;
+            transform: scale(1.01);
+            border-color: var(--border-bright);
+            box-shadow: 0 50px 140px rgba(0, 0, 0, 0.96), 0 0 60px var(--glow-primary);
+        }
+
+        .lore-cinema-panel:hover {
+            border-color: var(--border-bright);
+        }
+
+        .lore-photo-stage {
+            position: relative;
+            overflow: hidden;
+            border-right: 1.5px solid var(--border-subtle);
+            background: #060405;
+        }
+
+        .lore-panel-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            filter: contrast(1.06) brightness(0.98);
+            transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lore-cinema-panel:hover .lore-panel-img,
+        .lore-cinema-panel.active-cinema-panel .lore-panel-img {
+            transform: scale(1.05);
+        }
+
+        .lore-photo-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(6,4,5,0.05) 0%, rgba(6,4,5,0.85) 100%);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            padding: 2rem 2.2rem;
+            pointer-events: none;
+        }
+
+        .lore-photo-caption {
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            color: var(--accent-gold);
+            letter-spacing: 1.8px;
+            background: rgba(8, 5, 7, 0.9);
+            padding: 0.45rem 1rem;
+            border-radius: 999px;
+            border: 1px solid var(--border-subtle);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.7);
+        }
+
+        .lore-copy-stage {
+            padding: 3.5rem 3.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .lore-step-badge {
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            color: var(--accent-gold);
+            letter-spacing: 2.8px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .lore-step-badge::before {
+            content: '';
+            display: inline-block;
+            width: 24px;
+            height: 2px;
+            background: var(--accent-gold);
+        }
+
+        .lore-panel-title {
+            font-family: var(--font-editorial);
+            font-size: clamp(2.3rem, 3.6vw, 3.4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.4rem;
+            color: var(--text-primary);
+        }
+
+        .lore-panel-text {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .lore-bg-number {
+            position: absolute;
+            bottom: -15px;
+            right: 25px;
+            font-family: var(--font-editorial);
+            font-size: 10rem;
+            font-weight: 900;
+            color: rgba(232, 185, 89, 0.045);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        /* Timeline Scrubber Bar */
+        .engine2-timeline-bar {
+            position: absolute;
+            bottom: 1.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            background: rgba(14, 9, 12, 0.92);
+            border: 1px solid var(--border-subtle);
+            padding: 0.55rem 1.6rem;
+            border-radius: 999px;
+            backdrop-filter: blur(20px);
+            z-index: 25;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.85);
+        }
+
+        .timeline-track-fill {
+            height: 3px;
+            width: 200px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 999px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timeline-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-crimson), var(--accent-gold));
+            box-shadow: 0 0 12px var(--glow-primary);
+            transition: width 0.08s linear;
+        }
+
+        .timeline-nodes-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .timeline-node {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            padding: 0.28rem 0.75rem;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            letter-spacing: 0.8px;
+        }
+
+        .timeline-node:hover {
+            color: var(--accent-gold);
+            border-color: var(--border-subtle);
+        }
+
+        .timeline-node.active-node {
+            color: #060405;
+            background: var(--accent-gold);
+            font-weight: 700;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 16px var(--glow-primary);
+        }
+
+        /* ==========================================================================
+           ENGINE 3: 3D DECK UNFOLDING & INTERACTIVE PATRONUS SIMULATOR
+           ========================================================================== */
+        .engine3-unfold-section {
+            position: relative;
+            padding: 8rem 4vw;
+            max-width: 1320px;
+            margin: 0 auto;
+            z-index: 6;
+        }
+
+        .engine3-header {
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto 4rem auto;
+        }
+
+        .engine3-title {
+            font-family: var(--font-editorial);
+            font-size: clamp(2.6rem, 4.8vw, 4.2rem);
+            font-weight: 600;
+            line-height: 1.08;
+            margin-bottom: 1rem;
+        }
+
+        .deck-unfold-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 1.85rem;
+            perspective: 1400px;
+        }
+
+        .artifact-bento-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 26px;
+            padding: 2.2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+            transform-style: preserve-3d;
+            transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.85s ease, border-color 0.3s ease;
+            opacity: 0;
+            transform: translate3d(0, 90px, -160px) rotateX(28deg) scale(0.88);
+        }
+
+        .artifact-bento-card.deck-dealt {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+        }
+
+        .artifact-bento-card:hover {
+            border-color: var(--border-bright);
+        }
+
+        .bento-span-7 { grid-column: span 7; }
+        .bento-span-5 { grid-column: span 5; }
+        .bento-span-6 { grid-column: span 6; }
+
+        .interactive-spell-stage {
+            width: 100%;
+            height: 250px;
+            border-radius: 18px;
+            background: radial-gradient(circle at 50% 50%, rgba(108, 229, 255, 0.15), rgba(6, 10, 15, 0.96));
+            border: 1px solid rgba(108, 229, 255, 0.35);
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wand-stage-bg {
+            background: radial-gradient(circle at 50% 50%, rgba(232, 185, 89, 0.2), rgba(15, 10, 12, 0.96));
+            border-color: var(--border-subtle);
+        }
+
+        #patronus-canvas,
+        #wand-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .spell-cast-btn {
+            position: absolute;
+            bottom: 14px;
+            right: 14px;
+            z-index: 5;
+            background: rgba(10, 14, 18, 0.9);
+            border: 1px solid var(--accent-patronus);
+            color: var(--accent-patronus);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 0.48rem 1rem;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
+        }
+
+        .spell-cast-btn:hover {
+            background: var(--accent-patronus);
+            color: #04080b;
+            box-shadow: 0 0 20px var(--glow-patronus);
+        }
+
+        .bento-photo-thumb {
+            width: 100%;
+            height: 190px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 1.4rem;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .bento-photo-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .artifact-bento-card:hover .bento-photo-thumb img {
+            transform: scale(1.08);
+        }
+
+        .bento-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 0.45rem;
+        }
+
+        .bento-heading {
+            font-family: var(--font-editorial);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.6rem;
+        }
+
+        .bento-copy {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.68;
+        }
+
+        /* ==========================================================================
+           ENGINE 4: ORBITAL CONSTELLATION WEB (HER RELATIONSHIPS)
+           ========================================================================== */
+        .engine4-constellation-section {
+            position: relative;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 7rem 4vw;
+            z-index: 6;
+        }
+
+        .constellation-split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .constellation-sticky-left {
+            position: sticky;
+            top: 6.5rem;
+            background: radial-gradient(circle at 50% 50%, rgba(232, 185, 89, 0.12), rgba(12, 8, 10, 0.95));
+            border: 1px solid var(--border-subtle);
+            border-radius: 28px;
+            padding: 2.2rem;
+            height: 560px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.75);
+        }
+
+        .constellation-svg-wrap {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #constellation-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
+        .orbit-link {
+            stroke: rgba(232, 185, 89, 0.22);
+            stroke-width: 1.5;
+            stroke-dasharray: 6 6;
+            transition: all 0.45s ease;
+        }
+
+        .orbit-link.active-link {
+            stroke: var(--accent-gold);
+            stroke-width: 3.5;
+            stroke-dasharray: none;
+            filter: drop-shadow(0 0 12px var(--accent-gold));
+        }
+
+        .orbit-node-group {
+            cursor: pointer;
+            transition: transform 0.35s ease;
+        }
+
+        .orbit-node-circle {
+            fill: #160e12;
+            stroke: var(--border-subtle);
+            stroke-width: 2;
+            transition: all 0.35s ease;
+        }
+
+        .orbit-node-group.active-node .orbit-node-circle {
+            fill: var(--accent-gold);
+            stroke: #fff;
+            filter: drop-shadow(0 0 20px var(--accent-gold));
+        }
+
+        .rel-cards-right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 3.5rem;
+            padding: 2rem 0 6rem 0;
+        }
+
+        .rel-story-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 26px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .rel-story-card.active-rel-card {
+            border-color: var(--border-bright);
+            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.8), 0 0 35px var(--glow-primary);
+            transform: translateX(8px);
+        }
+
+        .rel-photo-portrait {
+            width: 140px;
+            height: 160px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-subtle);
+            flex-shrink: 0;
+        }
+
+        .rel-photo-portrait img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .rel-story-card:hover .rel-photo-portrait img {
+            transform: scale(1.08);
+        }
+
+        .rel-role-pill {
+            display: inline-block;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            background: rgba(232, 185, 89, 0.14);
+            border: 1px solid var(--border-subtle);
+            padding: 0.35rem 0.95rem;
+            border-radius: 999px;
+            margin-bottom: 0.85rem;
+        }
+
+        .rel-person-name {
+            font-family: var(--font-editorial);
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .rel-person-desc {
+            font-size: 1.02rem;
+            color: var(--text-secondary);
+            line-height: 1.72;
+        }
+
+        /* ==========================================================================
+           ENGINE 5: DUAL-LAYER X-RAY LENS REVEAL (FLAWS & REALISM)
+           ========================================================================== */
+        .engine5-xray-section {
+            position: relative;
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 7rem 4vw;
+            z-index: 6;
+        }
+
+        .xray-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 2rem;
+            margin-top: 3.5rem;
+        }
+
+        .xray-card {
+            position: relative;
+            height: 320px;
+            border-radius: 24px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.65);
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+            --lens-size: 0px;
+        }
+
+        .xray-card:hover,
+        .xray-card.xray-unlocked {
+            --lens-size: 280px;
+            border-color: var(--border-bright);
+        }
+
+        .xray-surface-layer {
+            position: absolute;
+            inset: 0;
+            padding: 2.4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(155deg, rgba(32, 20, 25, 0.95), rgba(12, 8, 10, 0.98));
+            z-index: 1;
+        }
+
+        .xray-truth-layer {
+            position: absolute;
+            inset: 0;
+            padding: 2.4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: radial-gradient(circle at center, rgba(158, 34, 43, 0.45), rgba(18, 9, 12, 0.98));
+            border: 1px solid var(--accent-gold);
+            z-index: 2;
+            clip-path: circle(var(--lens-size) at var(--mouse-x) var(--mouse-y));
+            transition: clip-path 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .xray-card.xray-unlocked .xray-truth-layer {
+            clip-path: circle(140% at 50% 50%);
+        }
+
+        .xray-status-badge {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: var(--text-muted);
+        }
+
+        .xray-truth-layer .xray-status-badge {
+            color: var(--accent-gold);
+        }
+
+        .xray-title {
+            font-family: var(--font-editorial);
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .xray-body {
+            font-size: 0.98rem;
+            color: var(--text-secondary);
+            line-height: 1.64;
+        }
+
+        .xray-hint-footer {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--accent-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* ==========================================================================
+           ENGINE 6: SCRUBBABLE WORD-BY-WORD KINETIC TYPOGRAPHY & DEEP-DIVE DRAWERS
+           ========================================================================== */
+        .engine6-kinetic-section {
+            position: relative;
+            max-width: 1240px;
+            margin: 0 auto;
+            padding: 8rem 4vw 9rem 4vw;
+            z-index: 6;
+        }
+
+        .representation-duo {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.2rem;
+            margin-bottom: 5rem;
+        }
+
+        .rep-pillar-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 26px;
+            padding: 2.8rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .rep-pillar-card h3 {
+            font-family: var(--font-editorial);
+            font-size: 2.2rem;
+            color: var(--accent-gold);
+        }
+
+        .rep-pillar-card p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.74;
+        }
+
+        .kinetic-quote-stage {
+            background: radial-gradient(circle at 50% 50%, rgba(232, 185, 89, 0.16), rgba(12, 8, 10, 0.96));
+            border: 1.5px solid var(--border-bright);
+            border-radius: 34px;
+            padding: 4.8rem 3.8rem;
+            text-align: center;
+            box-shadow: 0 35px 95px rgba(0, 0, 0, 0.85), 0 0 65px var(--glow-primary);
+            margin-bottom: 4.8rem;
+        }
+
+        .kinetic-quote-words {
+            font-family: var(--font-editorial);
+            font-size: clamp(1.8rem, 3.4vw, 2.95rem);
+            font-weight: 600;
+            line-height: 1.45;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.35em;
+        }
+
+        .k-word {
+            color: rgba(255, 255, 255, 0.18);
+            transition: color 0.25s ease, text-shadow 0.25s ease, transform 0.25s ease;
+            display: inline-block;
+        }
+
+        .k-word.lit {
+            color: var(--text-primary);
+        }
+
+        .k-word.lit-gold {
+            color: var(--accent-gold);
+            font-style: italic;
+            text-shadow: 0 0 25px var(--glow-primary);
+        }
+
+        .deepdive-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .deepdive-tab-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 1.5rem 1.6rem;
+            text-align: left;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .deepdive-tab-btn:hover,
+        .deepdive-tab-btn.active {
+            border-color: var(--accent-gold);
+            background: rgba(232, 185, 89, 0.15);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px var(--glow-primary);
+            transform: translateY(-4px);
+        }
+
+        .dd-tab-num {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            color: var(--accent-gold);
+            letter-spacing: 2px;
+            display: block;
+            margin-bottom: 0.45rem;
+        }
+
+        .dd-tab-title {
+            font-family: var(--font-editorial);
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .deepdive-drawer-content {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-bright);
+            border-radius: 26px;
+            padding: 3rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.85rem;
+            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.7);
+        }
+
+        .dd-moment-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+            border-radius: 18px;
+            padding: 1.8rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .dd-moment-card h4 {
+            font-family: var(--font-editorial);
+            font-size: 1.45rem;
+            color: var(--accent-gold);
+            margin-bottom: 0.65rem;
+        }
+
+        .dd-moment-card p {
+            font-size: 0.96rem;
+            color: var(--text-secondary);
+            line-height: 1.68;
+        }
+
+        /* Lightbox Modal */
+        .photo-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(4, 2, 3, 0.92);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.35s ease;
+        }
+
+        .photo-modal-backdrop.modal-open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .photo-modal-container {
+            background: var(--bg-surface);
+            border: 1.5px solid var(--border-bright);
+            border-radius: 28px;
+            max-width: 900px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.95), 0 0 60px var(--glow-primary);
+            position: relative;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+        }
+
+        .modal-photo-side {
+            max-height: 540px;
+            background: #000;
+        }
+
+        .modal-photo-side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-info-side {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-subtle);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.25s ease;
+        }
+
+        .modal-close-btn:hover {
+            background: var(--accent-gold);
+            color: #060405;
+        }
+
+        footer {
+            border-top: 1px solid var(--border-subtle);
+            padding: 3.5rem 4vw;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            letter-spacing: 1.8px;
+            position: relative;
+            z-index: 10;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-z-layout {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .hero-editorial-col {
+                text-align: center;
+            }
+            .hero-photo-showcase {
+                max-width: 280px;
+            }
+            .z-trio-grid {
+                grid-template-columns: 1fr;
+                max-height: 75vh;
+                overflow-y: auto;
+            }
+            .lore-cinema-panel {
+                grid-template-columns: 1fr;
+                width: 86vw;
+                height: auto;
+            }
+            .lore-photo-stage {
+                height: 240px;
+            }
+            .bento-span-7, .bento-span-5, .bento-span-6 {
+                grid-column: span 12;
+            }
+            .constellation-split-layout {
+                grid-template-columns: 1fr;
+            }
+            .constellation-sticky-left {
+                position: relative;
+                top: 0;
+                height: 440px;
+            }
+            .rel-story-card {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .rel-photo-portrait {
+                margin: 0 auto;
+            }
+            .representation-duo,
+            .deepdive-tabs,
+            .deepdive-drawer-content {
+                grid-template-columns: 1fr;
+            }
+            .nav-center-menu {
+                display: none;
+            }
+            .photo-modal-container {
+                grid-template-columns: 1fr;
+            }
+            .modal-photo-side {
+                height: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Global Progress Bar -->
+    <div class="global-progress-track">
+        <div class="global-progress-fill" id="globalProgressFill"></div>
+    </div>
+
+    <!-- Ambient Canvases -->
+    <canvas id="ambient-canvas"></canvas>
+    <canvas id="cursor-canvas"></canvas>
+    <div class="custom-cursor-ring" id="cursorRing"></div>
+
+    <!-- Navigation Header -->
+    <header class="top-nav">
+        <a href="#engine1" class="brand-logo">
+            <div class="brand-crest" id="brandCrest">🪄</div>
+            <div class="brand-text-wrap">
+                <span class="brand-title" id="brandTitle">HERMIONE GRANGER</span>
+                <span class="brand-sub" id="brandSub">The Complete Interactive Chronicle</span>
+            </div>
+        </a>
+
+        <nav class="nav-center-menu" aria-label="Story Chapters">
+            <button class="nav-btn active" onclick="scrollToSection('engine1')">01. IDENTITY</button>
+            <button class="nav-btn" onclick="scrollToSection('engine2')">02. CHRONICLE</button>
+            <button class="nav-btn" onclick="scrollToSection('engine3')">03. MAGIC & PATRONUS</button>
+            <button class="nav-btn" onclick="scrollToSection('engine4')">04. NEXUS</button>
+            <button class="nav-btn" onclick="scrollToSection('engine5')">05. TRUTH & FLAWS</button>
+            <button class="nav-btn" onclick="scrollToSection('engine6')">06. LEGACY</button>
+        </nav>
+
+        <div class="nav-actions-right">
+            <button class="audio-toggle-btn muted" id="audioToggleBtn" onclick="toggleAtmosphericAudio()">
+                <span class="audio-wave-bars">
+                    <span class="audio-bar"></span>
+                    <span class="audio-bar"></span>
+                    <span class="audio-bar"></span>
+                </span>
+                <span id="audioBtnText">AMBIENCE: OFF</span>
+            </button>
+
+            <div class="universe-toggle">
+                <button class="uni-btn active" id="uniHermione" onclick="switchUniverse('hermione')">🪄 Hermione</button>
+                <button class="uni-btn" id="uniMrRobot" onclick="switchUniverse('mrrobot')">💻 Mr. Robot</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Floating Live HUD -->
+    <div class="engine-status-hud" id="engineHud">
+        <div class="hud-pulse-dot"></div>
+        <div class="hud-info">
+            <span class="hud-engine-code" id="hudCode">ENGINE 01 // ACTIVE</span>
+            <span class="hud-engine-name" id="hudName">3D Z-Axis Depth-of-Field Camera</span>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+         ENGINE 1: 3D Z-AXIS DEPTH-OF-FIELD CAMERA FLY-THROUGH (HERO + TRAITS)
+         ========================================================================== -->
+    <section class="engine1-scroll-track" id="engine1">
+        <div class="engine1-sticky-viewport" id="engine1Viewport">
+
+            <!-- Geometric Astral Portal -->
+            <svg class="astral-portal-bg" id="astralPortalSvg" viewBox="0 0 600 600" fill="none">
+                <circle cx="300" cy="300" r="280" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 8" style="color: var(--accent-gold);"/>
+                <circle cx="300" cy="300" r="220" stroke="currentColor" stroke-width="1.5" style="color: var(--accent-gold);"/>
+                <polygon points="300,40 525,430 75,430" stroke="currentColor" stroke-width="1" style="color: var(--accent-gold);" fill="none"/>
+                <polygon points="300,560 525,170 75,170" stroke="currentColor" stroke-width="1" style="color: var(--accent-gold);" fill="none"/>
+                <circle cx="300" cy="300" r="130" stroke="currentColor" stroke-width="1.2" stroke-dasharray="12 6" style="color: var(--accent-patronus);"/>
+            </svg>
+
+            <!-- Z-PLANE 0: HERO INTRO & AUTHENTIC REAL PHOTOGRAPHIC PORTRAIT -->
+            <div class="z-plane plane-active" data-z-index="0">
+                <div class="hero-z-layout">
+                    <div class="hero-editorial-col">
+                        <span class="section-eyebrow" id="heroEyebrow">✦ CH. 00 // THE BRIGHTEST WITCH OF HER AGE</span>
+                        <h1 class="hero-main-title" id="heroTitle">
+                            Hermione <em>Jean</em> Granger
+                        </h1>
+                        <div class="hero-lead-box" id="heroLead">
+                            Hermione Jean Granger is one of the most brilliant, transformative figures in modern fiction. She isn’t just “the smart girl” with books — she is an indomitable strategist who evolves from an insecure, rule-following first-year into a fearless revolutionary willing to defy corrupt ministries, alter her parents' memories, and dismantle magical supremacy.
+                        </div>
+                        <div class="hero-scroll-hint">
+                            <span>SCROLL TO DIVE THROUGH 3D Z-SPACE</span>
+                            <span>↓</span>
+                        </div>
+                    </div>
+
+                    <!-- Authentic High-Resolution Photographic Portrait -->
+                    <div class="hero-photo-showcase" id="heroPhotoShowcase" onclick="openPhotoModal('hero')">
+                        <img src="images/hermione_hero.jpg" alt="Emma Watson as Hermione Granger" class="hero-photo-img" id="heroPhotoImg">
+                        <div class="hero-photo-vignette"></div>
+                        <div class="hero-photo-badge" id="heroPhotoBadge">EMMA WATSON // THE LIVING EMBODIMENT</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Z-PLANE 1: ARCANA 01 -->
+            <div class="z-plane" data-z-index="1" id="zPlane1">
+                <!-- Injected dynamically as full-viewport 3D card -->
+            </div>
+
+            <!-- Z-PLANE 2: ARCANA 02 -->
+            <div class="z-plane" data-z-index="2" id="zPlane2">
+                <!-- Injected dynamically as full-viewport 3D card -->
+            </div>
+
+            <!-- Z-PLANE 3: ARCANA 03 -->
+            <div class="z-plane" data-z-index="3" id="zPlane3">
+                <!-- Injected dynamically as full-viewport 3D card -->
+            </div>
+
+            <!-- Z-PLANE 4: ARCANA 04 -->
+            <div class="z-plane" data-z-index="4" id="zPlane4">
+                <!-- Injected dynamically as full-viewport 3D card -->
+            </div>
+
+            <!-- Z-PLANE 5: ARCANA 05 -->
+            <div class="z-plane" data-z-index="5" id="zPlane5">
+                <!-- Injected dynamically as full-viewport 3D card -->
+            </div>
+
+            <!-- Z-PLANE 6: ARCANA 06 -->
+            <div class="z-plane" data-z-index="6" id="zPlane6">
+                <!-- Injected dynamically as full-viewport 3D card -->
+            </div>
+
+            <!-- Z-PLANE 7: SUMMARY NEXUS & ATTRIBUTES -->
+            <div class="z-plane" data-z-index="7" id="zPlane7">
+                <div style="text-align: center; max-width: 920px; padding: 2.5rem; background: var(--bg-surface); border: 1.5px solid var(--border-bright); border-radius: 30px; backdrop-filter: blur(20px); box-shadow: 0 40px 100px rgba(0,0,0,0.85), 0 0 50px var(--glow-primary);">
+                    <span class="section-eyebrow">✦ CH. 01 // ARCHETYPAL ESSENCE</span>
+                    <h2 style="font-family: var(--font-editorial); font-size: clamp(2.4rem, 4.2vw, 3.8rem); margin-bottom: 1.2rem; color: var(--text-primary);">
+                        The Complete Psychological Archetype
+                    </h2>
+                    <p style="color: var(--text-secondary); font-size: 1.15rem; line-height: 1.8; margin-bottom: 2rem;">
+                        Hermione Jean Granger's greatness is not a static gift of fate — it is an active, daily discipline of moral courage, intellectual rigor, and sacrificial devotion.
+                    </p>
+                    <div class="notable-ribbon" id="zNotableRibbon">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         ENGINE 2: PINNED HORIZONTAL SCROLL CINEMA & SPINNING TIME-TURNER (LORE)
+         ========================================================================== -->
+    <section class="engine2-horizontal-section" id="engine2">
+        <div class="engine2-sticky-stage">
+            <div class="watermark-script" style="top: 12%; left: 5%;">Chronicle</div>
+
+            <div class="engine2-top-bar">
+                <div>
+                    <span class="section-eyebrow">✦ CH. 02 // PINNED HORIZONTAL TIME-TURNER CHRONICLE</span>
+                    <h2 style="font-family: var(--font-editorial); font-size: clamp(1.8rem, 3.2vw, 2.85rem);" id="engine2Title">
+                        2. Her Complete Backstory & Lore
+                    </h2>
+                </div>
+
+                <!-- Interactive Spinning 3D Time-Turner Synchronized to Scroll -->
+                <div class="timeturner-widget">
+                    <svg class="timeturner-svg" viewBox="0 0 100 100">
+                        <g class="tt-ring-outer" id="ttRingOuter">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="var(--accent-gold)" stroke-width="2.5" stroke-dasharray="14 6"/>
+                            <circle cx="50" cy="5" r="3.5" fill="var(--accent-gold)"/>
+                            <circle cx="50" cy="95" r="3.5" fill="var(--accent-gold)"/>
+                        </g>
+                        <g class="tt-ring-mid" id="ttRingMid">
+                            <circle cx="50" cy="50" r="34" fill="none" stroke="var(--accent-amber)" stroke-width="2"/>
+                            <line x1="16" y1="50" x2="84" y2="50" stroke="var(--accent-gold)" stroke-width="1.5"/>
+                        </g>
+                        <g class="tt-hourglass" id="ttHourglass">
+                            <path d="M38,32 L62,32 L50,50 L62,68 L38,68 L50,50 Z" fill="rgba(232, 185, 89, 0.4)" stroke="var(--accent-gold)" stroke-width="2"/>
+                        </g>
+                    </svg>
+                    <div>
+                        <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); letter-spacing: 2px;">ACTIVE ERA</div>
+                        <div class="year-odometer" id="activeEraYear">1979</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horizontal Cinema Track (Real Photographic Story Milestones) -->
+            <div class="horizontal-reel-track" id="horizontalTrack">
+                <!-- Injected dynamically -->
+            </div>
+
+            <!-- Interactive Time-Turner Era Timeline Scrubber -->
+            <div class="engine2-timeline-bar" id="engine2TimelineBar">
+                <div class="timeline-track-fill">
+                    <div class="timeline-progress-bar" id="timelineProgressBar"></div>
+                </div>
+                <div class="timeline-nodes-wrap" id="timelineNodesWrap">
+                    <!-- Era nodes injected dynamically -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         ENGINE 3: 3D DECK UNFOLDING & INTERACTIVE PATRONUS SIMULATOR (PROFILE)
+         ========================================================================== -->
+    <section class="engine3-unfold-section" id="engine3">
+        <div class="watermark-script" style="top: 2%; right: 2%;">Expecto Patronum</div>
+
+        <div class="engine3-header">
+            <span class="section-eyebrow">✦ CH. 03 // 3D ORIGAMI DECK & INTERACTIVE SPELL SIMULATOR</span>
+            <h2 class="engine3-title" id="engine3Title">3. Her Magical Profile</h2>
+            <p style="color: var(--text-secondary); font-size: 1.08rem;" id="engine3Sub">
+                Interact with the living silver Patronus mist and Vine Wood wand chambers below to cast real-time particle magic.
+            </p>
+        </div>
+
+        <div class="deck-unfold-grid" id="deckUnfoldGrid">
+            <!-- Card 1: Interactive Silver Otter Patronus Simulator -->
+            <div class="artifact-bento-card bento-span-7">
+                <div class="interactive-spell-stage" id="patronusStage">
+                    <canvas id="patronus-canvas"></canvas>
+                    <button class="spell-cast-btn" onclick="triggerPatronusBurst()">✦ CAST EXPECTO PATRONUM</button>
+                </div>
+                <div class="bento-tag" id="prof1Tag">CORPOREAL PATRONUS // SILVER SPIRIT</div>
+                <h3 class="bento-heading" id="prof1Title">Shining Otter Patronus</h3>
+                <p class="bento-copy" id="prof1Desc">
+                    The otter is associated with boundless curiosity, playfulness, family devotion, and incisive intelligence. Move your cursor across the chamber above to guide her silver otter through the shadows.
+                </p>
+            </div>
+
+            <!-- Card 2: Interactive Vine Wood Wand Simulator -->
+            <div class="artifact-bento-card bento-span-5">
+                <div class="interactive-spell-stage wand-stage-bg" id="wandStage">
+                    <canvas id="wand-canvas"></canvas>
+                    <button class="spell-cast-btn" style="border-color: var(--accent-gold); color: var(--accent-gold);" onclick="triggerWandSparks()">✦ CAST LUMOS MAXIMA</button>
+                </div>
+                <div class="bento-tag" id="prof2Tag">WANDLORE // OLLIVANDERS</div>
+                <h3 class="bento-heading" id="prof2Title">Vine Wood & Dragon Heartstring</h3>
+                <p class="bento-copy" id="prof2Desc">
+                    10¾ inches. Vine wands seek witches who possess vision beyond the ordinary, paired with dragon heartstring for supreme power and decisive non-verbal mastery.
+                </p>
+            </div>
+
+            <!-- Card 3: Hogwarts House (Real Costume Display) -->
+            <div class="artifact-bento-card bento-span-6" onclick="openPhotoModal('costume')">
+                <div class="bento-photo-thumb">
+                    <img src="images/hermione_costume.jpg" alt="Hermione's authentic Gryffindor uniform at Warner Bros Tour">
+                </div>
+                <div class="bento-tag" id="prof3Tag">SORTING HAT DECISION // 1991</div>
+                <h3 class="bento-heading" id="prof3Title">Gryffindor House</h3>
+                <p class="bento-copy" id="prof3Desc">
+                    Though Ravenclaw was strongly considered for her intellect, Hermione chose Gryffindor—proving that her nerve, moral bravery, and loyalty far eclipse mere academic pride.
+                </p>
+            </div>
+
+            <!-- Card 4: The Time-Turner Artifact (Real Prop Display) -->
+            <div class="artifact-bento-card bento-span-6" onclick="openPhotoModal('timeturner')">
+                <div class="bento-photo-thumb">
+                    <img src="images/time_turner.jpg" alt="Official Warner Bros Time-Turner Prop">
+                </div>
+                <div class="bento-tag" id="prof4Tag">MINISTRY SPECIAL ARTIFACT</div>
+                <h3 class="bento-heading" id="prof4Title">The Time-Turner Mastery</h3>
+                <p class="bento-copy" id="prof4Desc">
+                    Entrusted by Professor McGonagall under Ministry clearance to double her coursework, she later used it with Harry to rewrite history and rescue Sirius Black and Buckbeak.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         ENGINE 4: ORBITAL CONSTELLATION WEB (HER RELATIONSHIPS)
+         ========================================================================== -->
+    <section class="engine4-constellation-section" id="engine4">
+        <div class="section-header" style="margin-bottom: 3.5rem;">
+            <span class="section-eyebrow">✦ CH. 04 // CELESTIAL TETHERS & ALLIANCES</span>
+            <h2 class="engine3-title" id="engine4Title">4. Her Relationships</h2>
+            <p style="color: var(--text-secondary); font-size: 1.05rem;" id="engine4Sub">
+                Scroll through the dossiers on the right or click any celestial star in the orbital nexus to inspect her inner circle.
+            </p>
+        </div>
+
+        <div class="constellation-split-layout">
+            <!-- Left Sticky Orbital Constellation -->
+            <div class="constellation-sticky-left">
+                <div style="width: 100%; display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.74rem; color: var(--accent-gold);">
+                    <span>CELESTIAL NEXUS // LIVE TETHER</span>
+                    <span id="activeStarLabel">NODE: HARRY POTTER</span>
+                </div>
+
+                <div class="constellation-svg-wrap">
+                    <svg id="constellation-svg" viewBox="0 0 420 420">
+                        <circle cx="210" cy="210" r="145" fill="none" stroke="rgba(232,185,89,0.16)" stroke-dasharray="4 8"/>
+                        <circle cx="210" cy="210" r="90" fill="none" stroke="rgba(232,185,89,0.12)"/>
+
+                        <line id="link-0" class="orbit-link active-link" x1="210" y1="210" x2="210" y2="65"/>
+                        <line id="link-1" class="orbit-link" x1="210" y1="210" x2="355" y2="210"/>
+                        <line id="link-2" class="orbit-link" x1="210" y1="210" x2="210" y2="355"/>
+                        <line id="link-3" class="orbit-link" x1="210" y1="210" x2="65" y2="210"/>
+
+                        <!-- Center Node -->
+                        <g transform="translate(210, 210)">
+                            <circle r="36" fill="var(--accent-gold)" filter="drop-shadow(0 0 20px var(--accent-gold))"/>
+                            <text text-anchor="middle" dy="5" fill="#060405" font-family="var(--font-mono)" font-size="10" font-weight="700" id="centerNodeText">HERMIONE</text>
+                        </g>
+
+                        <!-- Outer Nodes -->
+                        <g class="orbit-node-group active-node" id="node-0" transform="translate(210, 65)" onclick="focusRelCard(0)">
+                            <circle class="orbit-node-circle" r="28"/>
+                            <text text-anchor="middle" dy="4" fill="#fff" font-family="var(--font-mono)" font-size="9" font-weight="700" id="nodeLabel0">HARRY</text>
+                        </g>
+                        <g class="orbit-node-group" id="node-1" transform="translate(355, 210)" onclick="focusRelCard(1)">
+                            <circle class="orbit-node-circle" r="28"/>
+                            <text text-anchor="middle" dy="4" fill="#fff" font-family="var(--font-mono)" font-size="9" font-weight="700" id="nodeLabel1">RON</text>
+                        </g>
+                        <g class="orbit-node-group" id="node-2" transform="translate(210, 355)" onclick="focusRelCard(2)">
+                            <circle class="orbit-node-circle" r="28"/>
+                            <text text-anchor="middle" dy="4" fill="#fff" font-family="var(--font-mono)" font-size="9" font-weight="700" id="nodeLabel2">GINNY</text>
+                        </g>
+                        <g class="orbit-node-group" id="node-3" transform="translate(65, 210)" onclick="focusRelCard(3)">
+                            <circle class="orbit-node-circle" r="28"/>
+                            <text text-anchor="middle" dy="4" fill="#fff" font-family="var(--font-mono)" font-size="9" font-weight="700" id="nodeLabel3">TRIO</text>
+                        </g>
+                    </svg>
+                </div>
+
+                <div style="font-size: 0.88rem; color: var(--text-secondary); text-align: center; font-style: italic;" id="constellationCaption">
+                    "Books and cleverness! There are more important things — friendship and bravery."
+                </div>
+            </div>
+
+            <!-- Right Scrollable Dossiers with Real Visuals -->
+            <div class="rel-cards-right-column" id="relCardsContainer">
+                <!-- Injected dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         ENGINE 5: DUAL-LAYER X-RAY LENS REVEAL (FLAWS & REALISM)
+         ========================================================================== -->
+    <section class="engine5-xray-section" id="engine5">
+        <div class="engine3-header">
+            <span class="section-eyebrow">✦ CH. 05 // INTERACTIVE X-RAY TRUTH LENS</span>
+            <h2 class="engine3-title" id="engine5Title">5. Her Flaws — What Makes Her Realistic</h2>
+            <p style="color: var(--text-secondary); font-size: 1.08rem;" id="engine5Sub">
+                Hermione isn’t a flawless superhero. Move your magical X-Ray Lens over any card (or click to lock open) to strip away her academic armor and inspect her raw human vulnerability.
+            </p>
+        </div>
+
+        <div class="xray-grid" id="xrayGrid">
+            <!-- Populated dynamically -->
+        </div>
+    </section>
+
+    <!-- ==========================================================================
+         ENGINE 6: SCRUBBABLE WORD-BY-WORD KINETIC TYPOGRAPHY & DEEP-DIVE DRAWERS
+         ========================================================================== -->
+    <section class="engine6-kinetic-section" id="engine6">
+        <div class="engine3-header">
+            <span class="section-eyebrow">✦ CH. 06 // SCROLL-SCRUBBED KINETIC LEGACY</span>
+            <h2 class="engine3-title" id="engine6Title">6. What Hermione Represents</h2>
+        </div>
+
+        <div class="representation-duo" id="repDuoGrid">
+            <!-- Populated dynamically -->
+        </div>
+
+        <!-- Scroll-Synchronized Word-by-Word Illumination Stage -->
+        <div class="kinetic-quote-stage" id="kineticStage">
+            <div style="font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 3px; color: var(--accent-gold); margin-bottom: 1.8rem;">
+                IN ONE DEFINING SENTENCE // SCROLL TO ILLUMINATE
+            </div>
+            <div class="kinetic-quote-words" id="kineticWordsContainer">
+                <!-- Word spans injected dynamically -->
+            </div>
+        </div>
+
+        <!-- Interactive 3-Pathway Deep-Dive Archive -->
+        <div class="deepdive-explorer">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <span class="section-eyebrow">✦ IMMERSIVE ARCHIVE // 3 PATHWAYS</span>
+                <h3 style="font-family: var(--font-editorial); font-size: 2.3rem;">Explore Deeper Dimensions of Her Arc</h3>
+            </div>
+
+            <div class="deepdive-tabs">
+                <button class="deepdive-tab-btn active" onclick="switchDeepDive(0)" id="ddBtn0">
+                    <span class="dd-tab-num">PATHWAY // 01</span>
+                    <span class="dd-tab-title" id="ddTitle0">Pivotal Character Turning Points</span>
+                </button>
+                <button class="deepdive-tab-btn" onclick="switchDeepDive(1)" id="ddBtn1">
+                    <span class="dd-tab-num">PATHWAY // 02</span>
+                    <span class="dd-tab-title" id="ddTitle1">Dynamics & Chemistry with Harry & Ron</span>
+                </button>
+                <button class="deepdive-tab-btn" onclick="switchDeepDive(2)" id="ddBtn2">
+                    <span class="dd-tab-num">PATHWAY // 03</span>
+                    <span class="dd-tab-title" id="ddTitle2">How Personal Flaws Shaped Her Decisions</span>
+                </button>
+            </div>
+
+            <div class="deepdive-drawer-content" id="deepDiveDrawer">
+                <!-- Populated dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal for Photo Stills -->
+    <div class="photo-modal-backdrop" id="photoModal" onclick="closePhotoModal(event)">
+        <div class="photo-modal-container" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" onclick="closePhotoModal(event)">✕</button>
+            <div class="modal-photo-side">
+                <img id="modalImg" src="" alt="Photographic Archive">
+            </div>
+            <div class="modal-info-side">
+                <span class="section-eyebrow" id="modalTag">ARCHIVE ITEM</span>
+                <h3 style="font-family: var(--font-editorial); font-size: 2.2rem; margin-bottom: 1rem;" id="modalTitle">Item Title</h3>
+                <p style="color: var(--text-secondary); font-size: 1.05rem; line-height: 1.7;" id="modalDesc">Detailed description...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div>CRAFTED WITH 6 CUSTOM VANILLA JS ANIMATION ENGINES • AUTHENTIC WARNER BROS ARCHIVAL PHOTOGRAPHY • NO CARTOON PLACEHOLDERS</div>
+    </footer>
+
+    <script>
+        /* ==========================================================================
+           AUTHENTIC MEDIA REGISTRY (REAL PHOTOGRAPHIC VISUALS)
+           ========================================================================== */
+        const PHOTO_ARCHIVE = {
+            hero: {
+                src: 'images/hermione_hero.jpg',
+                tag: 'WARNER BROS PREMIERE // DEATHLY HALLOWS',
+                title: 'Emma Watson as Hermione Granger',
+                desc: 'Photographed at the worldwide premiere of Harry Potter and the Deathly Hallows. Emma Watson portrayed Hermione across all eight blockbuster films from 2001 to 2011, establishing one of the most culturally celebrated heroines in modern cinematic history.'
+            },
+            costume: {
+                src: 'images/hermione_costume.jpg',
+                tag: 'WB STUDIO TOUR LONDON // ARCHIVES',
+                title: "Hermione's Gryffindor Uniform",
+                desc: 'The authentic Gryffindor robes, knit sweater, tie, and pleated skirt worn on screen by Emma Watson. Displayed in the Warner Bros Studio Tour archives in Leavesden, London.'
+            },
+            timeturner: {
+                src: 'images/time_turner.jpg',
+                tag: 'MINISTRY OF MAGIC PROP // YEAR THREE',
+                title: 'The Prop Time-Turner',
+                desc: "Crafted by prop designer Pierre Bohanna with rotating brass gimbal rings, a miniature hourglass of golden sands, and engraved runes around the outer bezel: 'I mark the hours, every one, Nor have I yet outrun the Sun.'"
+            },
+            trio: {
+                src: 'images/hermione_trio.jpg',
+                tag: 'THE GOLDEN TRIO // REAL LIFE',
+                title: 'Daniel Radcliffe, Emma Watson & Rupert Grint',
+                desc: 'The trio who grew up together on set, cementing an unbreakable 10-year bond as Harry, Hermione, and Ron that translated into genuine emotional chemistry across all eight films.'
+            },
+            yuleBall: {
+                src: 'images/hermione_yule_ball.jpg',
+                tag: 'GOBLET OF FIRE // YULE BALL',
+                title: 'The Tiered Periwinkle Chiffon Gown',
+                desc: "Designed by costume designer Jany Temime. Hermione's breathtaking entrance descending the marble staircase shattered the simplistic 'bookworm' archetype and stunned Ron and Viktor Krum."
+            },
+            wand: {
+                src: 'images/hermione_wand.jpg',
+                tag: 'WAND EXHIBITION // BARCELONA 2024',
+                title: '10¾" Vine Wood Wand',
+                desc: 'Carved with delicate spiraling vine leaves along the shaft, symbolizing fertility, renewal, and hidden depth. Paired with a dragon heartstring core for supreme magical force.'
+            },
+            library: {
+                src: 'images/hogwarts_library.jpg',
+                tag: 'HOGWARTS CASTLE // RESTRICTED SECTION',
+                title: 'The Hogwarts Archives',
+                desc: "Where Hermione spends countless nights unearthing Nicholas Flamel, Polyjuice recipes, and Horcrux lore that repeatedly saves Harry and Ron's lives."
+            }
+        };
+
+        /* ==========================================================================
+           COMPLETE DUAL-UNIVERSE DATA
+           ========================================================================== */
+        const UNIVERSE_DATA = {
+            hermione: {
+                brandCrest: "🪄",
+                brandTitle: "HERMIONE GRANGER",
+                brandSub: "The Complete Interactive Chronicle",
+                heroEyebrow: "✦ CH. 00 // THE BRIGHTEST WITCH OF HER AGE",
+                heroTitle: "Hermione <em>Jean</em> Granger",
+                heroLead: "Hermione Jean Granger is one of the most brilliant, transformative figures in modern fiction. She isn’t just “the smart girl” with books — she is an indomitable strategist who evolves from an insecure, rule-following first-year into a fearless revolutionary willing to defy corrupt ministries, alter her parents' memories, and dismantle magical supremacy.",
+                heroPhoto: "images/hermione_hero.jpg",
+                heroBadge: "EMMA WATSON // THE LIVING EMBODIMENT",
+                definingTraits: [
+                    {
+                        num: "ARCANA 01 // INTELLECT & ARCHIVES",
+                        title: "Razor-Sharp Intellect & Unrelenting Preparation",
+                        quote: "When in doubt, go to the library. There is always an answer hidden in history.",
+                        desc: "She rarely relies on impulsive luck. She dives into deep ancient archives, cross-references forgotten curses, and prepares protective logistics months in advance. She is the cognitive anchor of the wizarding world.",
+                        img: "images/hogwarts_library.jpg",
+                        photoKey: "library",
+                        tags: ["RESTRICTED SECTION", "N.E.W.T. PRODIGY", "STRATEGIC LOGISTICS"]
+                    },
+                    {
+                        num: "ARCANA 02 // MORAL CONVICTION",
+                        title: "Principled Bravery & Defying Authority for Justice",
+                        quote: "I hope you're pleased with yourselves. We could all have been killed — or worse, expelled.",
+                        desc: "While she begins with reverence for institutional rules, she breaks them without hesitation when higher justice calls. She sets Snape's robes alight, steals boomslang skin from Snape's private stores, punches Draco Malfoy, and engineers Dumbledore's Army under Umbridge's nose.",
+                        img: "images/hermione_costume.jpg",
+                        photoKey: "costume",
+                        tags: ["MORAL CONVICTION", "RULE-BREAKER", "GRYFFINDOR CHIVALRY"]
+                    },
+                    {
+                        num: "ARCANA 03 // THE SACRIFICIAL SHIELD",
+                        title: "Fierce Loyalty & The Obliviation of Her Roots",
+                        quote: "I've modified my parents' memories... they have no idea they have a daughter.",
+                        desc: "Her devotion to Harry and Ron is forged in dragonfire. She makes the ultimate emotional sacrifice—wiping herself from her parents' memories to protect them—and endures Bellatrix Lestrange's knife and torture at Malfoy Manor without giving up the secret of Gryffindor's Sword.",
+                        img: "images/hermione_trio.jpg",
+                        photoKey: "trio",
+                        tags: ["BLOOD SACRIFICE", "MALFOY MANOR SURVIVOR", "UNBREAKABLE BOND"]
+                    },
+                    {
+                        num: "ARCANA 04 // THE IMPOSTER WOUND",
+                        title: "High-Strung Perfectionism & Fear of Failure",
+                        quote: "Her Boggart was Professor McGonagall telling her she had failed everything.",
+                        desc: "Her obsession with perfection isn't arrogance—it is defensive armor. As a Muggle-born in a society poisoned by blood supremacy, she feels she must work ten times harder than everyone else just to earn her right to belong.",
+                        img: "images/hermione_portrait_alt.jpg",
+                        photoKey: "hero",
+                        tags: ["TIME-TURNER BURNOUT", "BOGGART OF FAILURE", "VULNERABILITY"]
+                    },
+                    {
+                        num: "ARCANA 05 // THE RADICAL LIBERATOR",
+                        title: "S.P.E.W. & The Crusade Against Systemic Bigotry",
+                        quote: "If you want to know what a man's like, take a good look at how he treats his inferiors.",
+                        desc: "Hermione refuses to accept cruel institutions as 'magical tradition.' Through the Society for the Promotion of Elfish Welfare and her defense of giants, werewolves, and house-elves, she demands equality for every sentient creature.",
+                        img: "images/hermione_yule_ball.jpg",
+                        photoKey: "yuleBall",
+                        tags: ["S.P.E.W. FOUNDER", "EQUALITY REVOLUTION", "CHAMPION OF OPPRESSED"]
+                    },
+                    {
+                        num: "ARCANA 06 // ARCHITECT OF THE NEW ERA",
+                        title: "Minister for Magic & Modern Wizarding Jurisprudence",
+                        quote: "She tore down centuries of pro-pureblood supremacy and rewrote wizarding jurisprudence.",
+                        desc: "Rising from the Department for the Regulation and Control of Magical Creatures to the highest office in the magical world, Minister Hermione Granger eradicated archaic pureblood privilege and transformed the Ministry into a beacon of justice.",
+                        img: "images/hermione_hbp.jpg",
+                        photoKey: "hero",
+                        tags: ["MINISTER FOR MAGIC", "LEGAL OVERHAUL", "ETERNAL LEGACY"]
+                    }
+                ],
+                notablePills: ["Witty", "Resourceful", "Fiercely Loyal", "Hardworking", "Observant", "Unapologetic", "High-Strung Conscience", "Radical Reformer"],
+                loreMilestones: [
+                    {
+                        year: "1979",
+                        badge: "MILESTONE 01 // 19 SEPTEMBER 1979",
+                        title: "Muggle-Born Origins",
+                        text: "Born to two non-magical dentist parents. Growing up in the Muggle world gave her an outsider's fresh eye. When her Hogwarts letter arrived, she memorized all her textbooks before term even started.",
+                        img: "images/hermione_hero.jpg",
+                        caption: "MUGGLE HERITAGE // BORN TO DENTISTS"
+                    },
+                    {
+                        year: "1991",
+                        badge: "MILESTONE 02 // HOGWARTS YEAR ONE",
+                        title: "The Troll in the Dungeon",
+                        text: "Initially mocked as an insufferable know-it-all. But on Halloween, after Harry and Ron charge into the girls' bathroom to fight a 12-foot mountain troll, she lies to Professor McGonagall to protect them—forming an eternal bond.",
+                        img: "images/hermione_costume.jpg",
+                        caption: "YEAR ONE // THE GOLDEN BOND FORGED"
+                    },
+                    {
+                        year: "1993",
+                        badge: "MILESTONE 03 // PRISONER OF AZKABAN",
+                        title: "Mastering the Time-Turner",
+                        text: "Armed with a Ministry Time-Turner, she takes more classes than physically possible. When Sirius Black and Buckbeak face execution, she and Harry execute a breathtaking temporal rescue, rewriting the timeline.",
+                        img: "images/time_turner.jpg",
+                        caption: "TEMPORAL DISCIPLINE // BUCKBEAK & SIRIUS"
+                    },
+                    {
+                        year: "1994",
+                        badge: "MILESTONE 04 // GOBLET OF FIRE",
+                        title: "The Yule Ball Transformation",
+                        text: "Arriving on the arm of international Quidditch star Viktor Krum in a cascading periwinkle gown, Hermione stuns the entire Great Hall—shattering the narrow stereotype of the frumpy academic.",
+                        img: "images/hermione_yule_ball.jpg",
+                        caption: "THE YULE BALL // BREAKING THE STEREOTYPE"
+                    },
+                    {
+                        year: "1995",
+                        badge: "MILESTONE 05 // ORDER OF THE PHOENIX",
+                        title: "Architect of Dumbledore's Army",
+                        text: "When Dolores Umbridge bans practical defensive magic, Hermione refuses to remain helpless. She organizes the secret resistance, enchants Protean Charm galleons, and jinxes the sign-up parchment to punish traitors.",
+                        img: "images/hermione_wand.jpg",
+                        caption: "REVOLUTIONARY STRATEGY // DUMBLEDORE'S ARMY"
+                    },
+                    {
+                        year: "1997",
+                        badge: "MILESTONE 06 // DEATHLY HALLOWS",
+                        title: "The Horcrux Hunt & Sacrifice",
+                        text: "Her heartbreaking choice to cast Obliviate on her parents to keep them safe from Death Eaters. In the wilderness, her beaded bag with Undetectable Extension Charm carries the entire logistics of the wizarding resistance.",
+                        img: "images/hermione_trio.jpg",
+                        caption: "THE HORCRUX HUNT // OBLIVIATE SACRIFICE"
+                    },
+                    {
+                        year: "1998+",
+                        badge: "MILESTONE 07 // BATTLE & MINISTRY",
+                        title: "Battle of Hogwarts & Minister for Magic",
+                        text: "Destroys Hufflepuff's Cup in the Chamber of Secrets, duels Bellatrix Lestrange, and restores her parents' memories after the war. She eventually rises to become Minister for Magic, eradicating pro-pureblood laws forever.",
+                        img: "images/hermione_hbp.jpg",
+                        caption: "MINISTER FOR MAGIC // A NEW ERA OF EQUALITY"
+                    }
+                ],
+                relationships: [
+                    {
+                        nodeLabel: "HARRY",
+                        name: "Harry Potter",
+                        role: "Brother in Arms & Co-Leader",
+                        desc: "Her closest friend. Where Harry leads with reckless instinct and savior impulses, Hermione provides the critical research, cool logistics, and protective wards that keep him alive.",
+                        img: "images/hermione_hero.jpg"
+                    },
+                    {
+                        nodeLabel: "RON",
+                        name: "Ron Weasley",
+                        role: "Best Friend & Future Husband",
+                        desc: "Her counterweight. Their relationship develops through years of spirited bickering, jealousy, mutual defense, and emotional growth. Ron brings humor and street-smart instinct that grounds her intensity.",
+                        img: "images/hermione_portrait_alt.jpg"
+                    },
+                    {
+                        nodeLabel: "GINNY",
+                        name: "Ginny Weasley",
+                        role: "Confidante & Fellow Firebrand",
+                        desc: "A trusted confidante at the Burrow. Hermione is the one who encouraged Ginny to be herself around Harry, forging an enduring sisterly bond.",
+                        img: "images/hermione_yule_ball.jpg"
+                    },
+                    {
+                        nodeLabel: "TRIO",
+                        name: "The Golden Trio Synergy",
+                        role: "Head, Heart & Backbone",
+                        desc: "Together they are unstoppable: Hermione provides the Intellect, Harry provides the Courage, and Ron provides the Loyalty and Grit. None could have survived the war alone.",
+                        img: "images/hermione_trio.jpg"
+                    }
+                ],
+                flaws: [
+                    {
+                        surfaceTitle: "The Unshakeable Prodigy",
+                        surfaceDesc: "On the surface: Always the first hand raised in class, effortlessly memorizes entire spellbooks, immune to doubt.",
+                        truthTitle: "1. She Can Be Insufferably Smug",
+                        truthDesc: "Early on, her desperate need to prove her worth as a Muggle-born makes her prioritize being factually right over basic empathy for her peers."
+                    },
+                    {
+                        surfaceTitle: "The Master Planner",
+                        surfaceDesc: "On the surface: The cool-headed tactician who drafts meticulous, foolproof itineraries for every contingency.",
+                        truthTitle: "2. Controlling Obsession Under Stress",
+                        truthDesc: "When events turn unpredictable, she clings fiercely to rigid plans and grows irritable when friends don't follow her exact protocol."
+                    },
+                    {
+                        surfaceTitle: "The Fearless Champion",
+                        surfaceDesc: "On the surface: Faces trolls, basilisks, and Dementors with unblinking Gryffindor chivalry.",
+                        truthTitle: "3. Debilitating Fear of Academic Failure",
+                        truthDesc: "Her Boggart isn't Lord Voldemort—it is Professor McGonagall handing her a failing grade. Her perfectionism is armor against feeling like an imposter."
+                    },
+                    {
+                        surfaceTitle: "The Pure Empirical Rationalist",
+                        surfaceDesc: "On the surface: Immune to foolish superstitions, following only peer-reviewed magical textbooks.",
+                        truthTitle: "4. Intellectual Arrogance & Blind Spots",
+                        truthDesc: "She arrogantly mocks Divination and dismisses the Deathly Hallows as fairy-tale nonsense because she cannot stand concepts outside empirical logic."
+                    },
+                    {
+                        surfaceTitle: "The Invulnerable Heroine",
+                        surfaceDesc: "On the surface: Solves moral crises like algebraic equations without flinching.",
+                        truthTitle: "5. Emotional Maturation Over Time",
+                        truthDesc: "Her ultimate arc is learning that human hearts, grief, and institutional bigotry cannot be solved by reading another book—they demand vulnerability and love."
+                    }
+                ],
+                representation: [
+                    {
+                        title: "Greatness Earned, Never Inherited",
+                        text: "Hermione fundamentally shatters the aristocratic lie that magical greatness must come from ancient pureblood dynasties or prophecies. With no magical ancestry, she becomes the foremost witch of her century through relentless study and sheer moral grit."
+                    },
+                    {
+                        title: "A Defiant Living Refutation of Supremacy",
+                        text: "When Draco Malfoy slurs her as 'Mudblood,' she doesn't hide. She wears her Muggle roots with unshakeable pride, proving that talent and honor have zero connection to lineage."
+                    }
+                ],
+                oneSentence: "Hermione Granger is an extraordinary, principled, sometimes stubborn young witch whose knowledge gives her power, whose loyalty gives her purpose, and whose courage turns that power into a force that changes the world.",
+                deepDives: [
+                    [
+                        { title: "Brewing Polyjuice Potion at Age 12", text: "In her second year, she secretly brews an N.E.W.T.-level potion in an abandoned bathroom over a month of simmering—and figures out the Basilisk pipes mystery while petrified." },
+                        { title: "Punching Draco Malfoy (Year 3)", text: "Abandoning textbook diplomacy when Malfoy celebrates Buckbeak's death sentence, Hermione delivers a legendary right hook that proves she won't tolerate sadistic bullies." },
+                        { title: "Enduring the Cruciatus Curse at Malfoy Manor", text: "Pinned under Bellatrix Lestrange's knife, she withstands agonizing torture while inventing a coherent lie to protect the secret of Gryffindor's Sword." }
+                    ],
+                    [
+                        { title: "With Harry: The Sibling Dynamic", text: "Their bond is built on unspoken trust. While Ron struggles with jealousy over Harry's fame, Hermione never envies Harry—she acts as his shield, conscience, and researcher." },
+                        { title: "With Ron: Opposites That Strengthen", text: "Ron calls her out when she's overbearing, and she pulls Ron up when he lacks ambition. Their romance is grounded in years of shared combat and emotional truth." },
+                        { title: "The Brain of the Golden Trio", text: "Without Hermione's logistics, protective spells, and enchanted bag, Harry and Ron would have starved or been captured within 48 hours of starting the Horcrux hunt." }
+                    ],
+                    [
+                        { title: "S.P.E.W. & Well-Intentioned Paternalism", text: "Her controlling streak leads her to hide knitted hats to trick Hogwarts elves into freedom without asking how they feel—teaching her that true activism requires listening." },
+                        { title: "Potions Jealousy in Year Six", text: "When Harry uses the Half-Blood Prince's scribbled notes to outperform her in Potions, she is visibly bitter—unable to accept that intuition can beat official textbooks." },
+                        { title: "The Skepticism of the Hallows", text: "Her rigid adherence to verified facts makes her dismiss Xenophilius Lovegood's Hallows story—proving that even the brightest witch can be blinded by skepticism." }
+                    ]
+                ]
+            },
+
+            mrrobot: {
+                brandCrest: "💻",
+                brandTitle: "ELLIOT ALDERSON",
+                brandSub: "fsociety // Cyber Narrative Experience",
+                heroEyebrow: "✦ CH. 00 // THE MASTERMIND & VIGILANTE HACKER",
+                heroTitle: "Elliot <em>Alderson</em> // fsociety",
+                heroLead: "Elliot Alderson is a cybersecurity genius by day and vigilante hacker by night. Living with severe social anxiety and Dissociative Identity Disorder, he wages an asymmetrical digital war against corporate debt tyranny while struggling to retain control of his own fractured mind.",
+                heroPhoto: "images/emma_watson_premiere.jpg",
+                heroBadge: "RAMI MALEK // ELLIOT ALDERSON",
+                definingTraits: [
+                    {
+                        num: "NODE 01 // EXPLOIT ARCHITECTURE",
+                        title: "Prodigious Cyber-Intelligence & Zero-Day Mastery",
+                        quote: "A bug is never just a mistake. It represents something bigger. An error of thinking.",
+                        desc: "Master of zero-day exploits, cryptography, and psychological social engineering. He deconstructs corporate firewalls and human pretenses with surgical clarity.",
+                        img: "images/hermione_wand.jpg",
+                        photoKey: "wand",
+                        tags: ["CYBERSECURITY", "ROOT ACCESS", "SOCIAL ENGINEERING"]
+                    },
+                    {
+                        num: "NODE 02 // MORAL IMPERATIVE",
+                        title: "Radical Moral Compass & Vigilante Ethic",
+                        quote: "I wanted to save the world. I don't know if that's possible anymore.",
+                        desc: "Though he breaks every digital statute, he never hacks for greed—targeting financial predators, child abusers, and conglomerates that exploit ordinary families.",
+                        img: "images/hermione_costume.jpg",
+                        photoKey: "costume",
+                        tags: ["ROBIN HOOD HACKER", "MORAL IMPERATIVE", "UNMASKING ABUSERS"]
+                    },
+                    {
+                        num: "NODE 03 // THE SISTER TETHER",
+                        title: "Fierce Devotion to Darlene Alderson",
+                        quote: "Darlene is my reality anchor. Without her, I don't know which world is real.",
+                        desc: "Beneath his isolation lies profound love for his sister Darlene, repeatedly risking his life and mind against the Dark Army to keep her safe.",
+                        img: "images/hermione_trio.jpg",
+                        photoKey: "trio",
+                        tags: ["REALITY ANCHOR", "FSOCIETY CO-FOUNDER", "BLOODLINE TETHER"]
+                    },
+                    {
+                        num: "NODE 04 // THE DISSOCIATED MIND",
+                        title: "Social Alienation & The Invisible Friend",
+                        quote: "Hello, friend. That's lame. Maybe I should give you a name.",
+                        desc: "Struggling with tactile contact and small talk, he retreats behind his black hoodie and internal dialogue with his 'invisible friend' (the observer alter).",
+                        img: "images/hermione_portrait_alt.jpg",
+                        photoKey: "hero",
+                        tags: ["INVISIBLE FRIEND", "SOCIAL PHOBIA", "ALTERED REALITY"]
+                    },
+                    {
+                        num: "NODE 05 // SYSTEM RESET",
+                        title: "Anti-Authoritarian Revolution & Five/Nine Event",
+                        quote: "We're going to encrypt their data, erase all consumer debt, and reset civilization.",
+                        desc: "Refusing to accept corporate debt servitude as natural, he orchestrates the Five/Nine hack to redistribute trillions back to everyday people.",
+                        img: "images/time_turner.jpg",
+                        photoKey: "timeturner",
+                        tags: ["5/9 EVENT", "STEEL MOUNTAIN", "DEBT CANCELLATION"]
+                    },
+                    {
+                        num: "NODE 06 // FINAL INTEGRATION",
+                        title: "Surrendering Control & Radical Vulnerability",
+                        quote: "This only works if you let go too. You have to let Elliot wake up.",
+                        desc: "Confronting the truth that the Mastermind was an alter built to carry Elliot's rage, he surrenders control so the real Elliot can awaken to his sister's love.",
+                        img: "images/emma_watson_premiere.jpg",
+                        photoKey: "hero",
+                        tags: ["INTEGRATION", "RADICAL LOVE", "WAKING UP"]
+                    }
+                ],
+                notablePills: ["Observant", "Introverted", "Relentless", "Fractured", "Self-Aware", "Deeply Empathetic", "Unreliable Narrator", "Resilient"],
+                loreMilestones: [
+                    {
+                        year: "1986",
+                        badge: "PACKET 01 // WASHINGTON TOWNSHIP",
+                        title: "Childhood Trauma & The Window",
+                        text: "Childhood abuse and the death of his father to E Corp's toxic cover-up fractured Elliot's psyche—giving birth to his protector alter, Mr. Robot.",
+                        img: "images/hermione_hero.jpg",
+                        caption: "GENESIS // THE BIRTH OF FSOCIETY"
+                    },
+                    {
+                        year: "2015",
+                        badge: "PACKET 02 // ALLSAFE & CONEY ISLAND",
+                        title: "The fsociety Recruitment",
+                        text: "While working as a senior cybersecurity engineer at Allsafe, Elliot is recruited into an abandoned Coney Island arcade to plot the erasure of global consumer debt.",
+                        img: "images/hermione_costume.jpg",
+                        caption: "CONEY ISLAND // FSOCIETY ARCADE"
+                    },
+                    {
+                        year: "5/9",
+                        badge: "PACKET 03 // THE FIVE/NINE HACK",
+                        title: "Global Financial Reset",
+                        text: "fsociety encrypts E Corp's financial backups and destroys tape records at Steel Mountain. Elliot awakens three days later with lost time.",
+                        img: "images/time_turner.jpg",
+                        caption: "ENCRYPTION // 5/9 GLOBAL EVENT"
+                    },
+                    {
+                        year: "STAGE 2",
+                        badge: "PACKET 04 // WAR OF THE MIND",
+                        title: "Battling Mr. Robot & Dark Army",
+                        text: "Horrified to learn Five/Nine was weaponized by Whiterose, Elliot battles his own alter in a frantic race to prevent Stage 2 from destroying 71 regional facilities.",
+                        img: "images/hermione_wand.jpg",
+                        caption: "STAGE 2 // CIVIL WAR IN THE PSYCHE"
+                    },
+                    {
+                        year: "DEUS",
+                        badge: "PACKET 05 // CHRISTMAS HEIST",
+                        title: "The Deus Group Redistribution",
+                        text: "Teaming up with Darlene, Elliot executes an audacious digital heist—doxxing the hundred wealthiest oligarchs and redistributing their trillions to everyone.",
+                        img: "images/hermione_trio.jpg",
+                        caption: "DEUS GROUP // REDISTRIBUTION COMPLETE"
+                    },
+                    {
+                        year: "HELLO",
+                        badge: "PACKET 06 // INTEGRATION",
+                        title: "Surrendering Control",
+                        text: "Confronting the truth that 'the Mastermind' is an alter built to carry Elliot's rage, he surrenders control so the real Elliot can awaken to his sister's love.",
+                        img: "images/hermione_hbp.jpg",
+                        caption: "HELLO, FRIEND // FINAL INTEGRATION"
+                    }
+                ],
+                relationships: [
+                    {
+                        nodeLabel: "DARLENE",
+                        name: "Darlene Alderson",
+                        role: "Sister & Reality Anchor",
+                        desc: "His sister and fsociety co-creator. Darlene is his constant emotional tether—the only person who immediately recognizes when Elliot is himself or an alter.",
+                        img: "images/hermione_hero.jpg"
+                    },
+                    {
+                        nodeLabel: "MR. ROBOT",
+                        name: "Mr. Robot",
+                        role: "Protector Alter Ego",
+                        desc: "Initially an adversary fighting for bodily control, Mr. Robot is revealed as a fierce guardian created to absorb agony Elliot was too young to bear.",
+                        img: "images/hermione_portrait_alt.jpg"
+                    },
+                    {
+                        nodeLabel: "ANGELA",
+                        name: "Angela Moss",
+                        role: "Childhood Soulmate",
+                        desc: "Bound by the shared grief of losing their parents to E Corp, Angela represents the innocent normal life Elliot desperately wishes he could preserve.",
+                        img: "images/hermione_yule_ball.jpg"
+                    },
+                    {
+                        nodeLabel: "KRISTA",
+                        name: "Dr. Krista Gordon",
+                        role: "Psychiatrist & Healer",
+                        desc: "His court-mandated therapist whose genuine compassion creates the safe harbor Elliot needs to unlock his deepest repressed truths.",
+                        img: "images/hermione_trio.jpg"
+                    }
+                ],
+                flaws: [
+                    {
+                        surfaceTitle: "The Invincible Ghost Hacker",
+                        surfaceDesc: "On the surface: Untraceable digital phantom who breaches any air-gapped network without leaving a trace.",
+                        truthTitle: "1. Self-Destructive Isolation",
+                        truthDesc: "He uses drugs and emotional withdrawal to numb his excruciating loneliness, pushing away those who love him."
+                    },
+                    {
+                        surfaceTitle: "The Heroic Liberator",
+                        surfaceDesc: "On the surface: A selfless digital vigilante fixing civilization for the 99%.",
+                        truthTitle: "2. God Complex & Control Mania",
+                        truthDesc: "The Mastermind believes he can debug society like code, ignoring the horrific collateral damage on innocent lives."
+                    },
+                    {
+                        surfaceTitle: "The Stoic Rationalist",
+                        surfaceDesc: "On the surface: Operates purely on cold logic and encryption algorithms.",
+                        truthTitle: "3. Terror of Emotional Intimacy",
+                        truthDesc: "Terrified of being seen, he hacks his friends' private lives onto audio CDs rather than having honest conversations."
+                    },
+                    {
+                        surfaceTitle: "The Master Strategist",
+                        surfaceDesc: "On the surface: Always ten moves ahead of the FBI and E Corp.",
+                        truthTitle: "4. Blindness to Systemic Power",
+                        truthDesc: "Erasing debt records without replacing governance inadvertently concentrated absolute power in Whiterose's hands."
+                    },
+                    {
+                        surfaceTitle: "The Autonomous Lone Wolf",
+                        surfaceDesc: "On the surface: Needs nobody to save the world.",
+                        truthTitle: "5. Discovering Vulnerability",
+                        truthDesc: "His journey proves that you cannot heal the world with an exploit—you heal it by showing up for the people you love."
+                    }
+                ],
+                representation: [
+                    {
+                        title: "Resisting Algorithmic Tyranny",
+                        text: "Elliot embodies the fight for human agency in an era of surveillance capitalism and manufactured consent."
+                    },
+                    {
+                        title: "Radical Compassion for Trauma",
+                        text: "The story portrays mental illness and Dissociative Identity Disorder not as a spectacle, but as a courageous survival architecture."
+                    }
+                ],
+                oneSentence: "Elliot Alderson is a brilliant, haunted, deeply empathetic hacker whose code gives him leverage, whose love for his sister gives him an anchor, and whose vulnerability finally sets him free.",
+                deepDives: [
+                    [
+                        { title: "The Steel Mountain Thermostat Exploit", text: "Infiltrating the world's most secure magnetic tape archive with social engineering and a customized Raspberry Pi." },
+                        { title: "The Continuous Single-Take Episode", text: "Navigating chaos during an anti-corporate protest while Elliot and Mr. Robot wrestle for physical control." },
+                        { title: "The '407 Proxy Authentication Required' Breakthrough", text: "A landmark theatrical hour where Krista guides Elliot to confront the childhood roots of his dissociation." }
+                    ],
+                    [
+                        { title: "With Darlene: The Emotional Core", text: "Whenever Elliot dissociates, holding Darlene's hand grounds his consciousness back into reality." },
+                        { title: "With Mr. Robot: From War to Harmony", text: "Moving from violent conflict over control to profound gratitude for each other's role in survival." },
+                        { title: "With the Viewer ('Hello, Friend')", text: "Making the audience an active psychological alter inside his mind." }
+                    ],
+                    [
+                        { title: "Anger Fueling the 5/9 Hack", text: "Unresolved trauma blinds him to how Whiterose is exploiting his revolution as a pawn." },
+                        { title: "Withholding the Truth from Angela", text: "Inability to communicate his love allows Angela to be manipulated by Dark Army propaganda." },
+                        { title: "Trapping the Real Elliot", text: "The Mastermind's protective obsession leads him to imprison the host personality in a loop until Darlene sets him free." }
+                    ]
+                ]
+            }
+        };
+
+        let currentUniverse = 'hermione';
+        let currentDeepDive = 0;
+
+        /* ==========================================================================
+           RENDER CONTENT ACROSS ALL ENGINES
+           ========================================================================== */
+        function renderUniverse(key) {
+            const data = UNIVERSE_DATA[key];
+            document.documentElement.setAttribute('data-theme', key);
+
+            // Brand & Hero
+            document.getElementById('brandCrest').textContent = data.brandCrest;
+            document.getElementById('brandTitle').textContent = data.brandTitle;
+            document.getElementById('brandSub').textContent = data.brandSub;
+            document.getElementById('heroEyebrow').textContent = data.heroEyebrow;
+            document.getElementById('heroTitle').innerHTML = data.heroTitle;
+            document.getElementById('heroLead').innerHTML = data.heroLead;
+            document.getElementById('heroPhotoImg').src = data.heroPhoto;
+            document.getElementById('heroPhotoBadge').textContent = data.heroBadge;
+
+            // Engine 1: 6 Full-Viewport 3D Depth-of-Field Planes (Planes 1 to 6)
+            data.definingTraits.forEach((trait, i) => {
+                const planeEl = document.getElementById(`zPlane${i + 1}`);
+                if (planeEl) {
+                    const isRev = (i % 2 === 1);
+                    planeEl.innerHTML = `
+                        <article class="z-full-card ${isRev ? 'layout-reverse' : ''}" onclick="openPhotoModal('${trait.photoKey}')">
+                            <div class="z-card-photo-side">
+                                <img src="${trait.img}" alt="${trait.title}">
+                                <div class="z-card-photo-overlay"></div>
+                            </div>
+                            <div class="z-card-copy-side">
+                                <div class="z-card-index">${trait.num}</div>
+                                <h3 class="z-card-title">${trait.title}</h3>
+                                <blockquote style="font-family: var(--font-editorial); font-style: italic; color: var(--accent-gold); font-size: 1.15rem; margin-bottom: 1.2rem; border-left: 2.5px solid var(--accent-gold); padding-left: 1.1rem; line-height: 1.55;">
+                                    "${trait.quote}"
+                                </blockquote>
+                                <p class="z-card-body">${trait.desc}</p>
+                                <div class="z-card-footer">
+                                    ${trait.tags.map(tag => `<span class="z-card-tag">${tag}</span>`).join('')}
+                                </div>
+                                <div class="z-card-bg-num">0${i + 1}</div>
+                            </div>
+                        </article>
+                    `;
+                }
+            });
+
+            document.getElementById('zNotableRibbon').innerHTML = data.notablePills.map(p => `
+                <span class="notable-chip">✦ ${p}</span>
+            `).join('');
+
+            // Engine 2: Pinned Horizontal Reel with Large Cinematic Panels
+            document.getElementById('horizontalTrack').innerHTML = data.loreMilestones.map((m, i) => `
+                <article class="lore-cinema-panel ${i === 0 ? 'active-cinema-panel' : ''}" id="cinemaPanel-${i}">
+                    <div class="lore-photo-stage">
+                        <img src="${m.img}" alt="${m.title}" class="lore-panel-img">
+                        <div class="lore-photo-overlay">
+                            <span class="lore-photo-caption">${m.caption}</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-gold); background: rgba(0,0,0,0.75); padding: 0.35rem 0.85rem; border-radius: 999px; border: 1px solid var(--border-subtle);">ERA 0${i + 1} // 07</span>
+                        </div>
+                    </div>
+                    <div class="lore-copy-stage">
+                        <span class="lore-step-badge">${m.badge}</span>
+                        <h3 class="lore-panel-title">${m.title}</h3>
+                        <p class="lore-panel-text">${m.text}</p>
+                        <div style="margin-top: auto; display: flex; align-items: center; gap: 0.85rem;">
+                            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-gold); letter-spacing: 1.5px;">TEMPORAL ARCHIVE</span>
+                            <span style="display: inline-block; width: 35px; height: 1.5px; background: var(--border-subtle);"></span>
+                            <span style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">${m.year} CHRONICLE</span>
+                        </div>
+                        <div class="lore-bg-number">0${i + 1}</div>
+                    </div>
+                </article>
+            `).join('');
+
+            // Engine 2: Timeline Nodes
+            const timelineWrap = document.getElementById('timelineNodesWrap');
+            if (timelineWrap) {
+                timelineWrap.innerHTML = data.loreMilestones.map((m, i) => `
+                    <button class="timeline-node ${i === 0 ? 'active-node' : ''}" onclick="scrubToEra(${i})">${m.year}</button>
+                `).join('');
+            }
+
+            // Engine 4: Constellation Nodes & Dossiers
+            document.getElementById('centerNodeText').textContent = key === 'hermione' ? 'HERMIONE' : 'ELLIOT';
+            data.relationships.forEach((rel, idx) => {
+                const lbl = document.getElementById(`nodeLabel${idx}`);
+                if (lbl) lbl.textContent = rel.nodeLabel;
+            });
+
+            document.getElementById('relCardsContainer').innerHTML = data.relationships.map((rel, idx) => `
+                <article class="rel-story-card ${idx === 0 ? 'active-rel-card' : ''}" data-rel-index="${idx}" id="relCard-${idx}">
+                    <div class="rel-photo-portrait">
+                        <img src="${rel.img}" alt="${rel.name}">
+                    </div>
+                    <div>
+                        <span class="rel-role-pill">${rel.role}</span>
+                        <h3 class="rel-person-name">${rel.name}</h3>
+                        <p class="rel-person-desc">${rel.desc}</p>
+                    </div>
+                </article>
+            `).join('');
+
+            // Engine 5: X-Ray Flaws
+            document.getElementById('xrayGrid').innerHTML = data.flaws.map(f => `
+                <div class="xray-card" onclick="this.classList.toggle('xray-unlocked')">
+                    <div class="xray-surface-layer">
+                        <div>
+                            <span class="xray-status-badge">◐ SURFACE REPUTATION</span>
+                            <h3 class="xray-title" style="margin-top:0.6rem;">${f.surfaceTitle}</h3>
+                            <p class="xray-body">${f.surfaceDesc}</p>
+                        </div>
+                        <div class="xray-hint-footer">
+                            <span>MOVE CURSOR OR TAP FOR TRUTH LENS</span>
+                            <span>🔍</span>
+                        </div>
+                    </div>
+                    <div class="xray-truth-layer">
+                        <div>
+                            <span class="xray-status-badge">✦ HUMAN REALITY // UNLOCKED</span>
+                            <h3 class="xray-title" style="margin-top:0.6rem; color: var(--accent-gold);">${f.truthTitle}</h3>
+                            <p class="xray-body" style="color: #fff;">${f.truthDesc}</p>
+                        </div>
+                        <div class="xray-hint-footer">
+                            <span>PSYCHOLOGICAL VULNERABILITY REVEALED</span>
+                            <span>⚡</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Engine 6: Representation & Kinetic Typography
+            document.getElementById('repDuoGrid').innerHTML = data.representation.map(r => `
+                <div class="rep-pillar-card">
+                    <h3>${r.title}</h3>
+                    <p>${r.text}</p>
+                </div>
+            `).join('');
+
+            const goldWords = ['Hermione', 'Granger', 'Elliot', 'Alderson', 'extraordinary,', 'brilliant,', 'principled,', 'knowledge', 'power,', 'loyalty', 'purpose,', 'courage', 'world.', 'leverage,', 'vulnerability', 'free.'];
+            const words = data.oneSentence.split(' ');
+            document.getElementById('kineticWordsContainer').innerHTML = words.map(w => {
+                const isGold = goldWords.includes(w);
+                return `<span class="k-word" data-gold="${isGold}">${w}</span>`;
+            }).join('');
+
+            switchDeepDive(currentDeepDive);
+            bindXRayMouseSpotlight();
+        }
+
+        function switchUniverse(key) {
+            if (currentUniverse === key) return;
+            currentUniverse = key;
+            document.getElementById('uniHermione').classList.toggle('active', key === 'hermione');
+            document.getElementById('uniMrRobot').classList.toggle('active', key === 'mrrobot');
+            renderUniverse(key);
+            triggerPatronusBurst();
+            triggerWandSparks();
+        }
+
+        function switchDeepDive(idx) {
+            currentDeepDive = idx;
+            [0, 1, 2].forEach(i => {
+                document.getElementById(`ddBtn${i}`).classList.toggle('active', i === idx);
+            });
+            const items = UNIVERSE_DATA[currentUniverse].deepDives[idx];
+            document.getElementById('deepDiveDrawer').innerHTML = items.map(item => `
+                <div class="dd-moment-card">
+                    <h4>${item.title}</h4>
+                    <p>${item.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function focusRelCard(idx) {
+            const card = document.getElementById(`relCard-${idx}`);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function scrubToEra(index) {
+            const eng2 = document.getElementById('engine2');
+            if (!eng2) return;
+            const vh = window.innerHeight;
+            const eng2Scrollable = eng2.offsetHeight - vh;
+            const milestones = UNIVERSE_DATA[currentUniverse].loreMilestones;
+            const targetProg = index / (milestones.length - 1);
+            const targetY = eng2.offsetTop + (targetProg * eng2Scrollable);
+            window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }
+
+        /* ==========================================================================
+           LIGHTBOX MODAL
+           ========================================================================== */
+        function openPhotoModal(key) {
+            const item = PHOTO_ARCHIVE[key];
+            if (!item) return;
+            document.getElementById('modalImg').src = item.src;
+            document.getElementById('modalTag').textContent = item.tag;
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalDesc').textContent = item.desc;
+            document.getElementById('photoModal').classList.add('modal-open');
+        }
+
+        function closePhotoModal(e) {
+            document.getElementById('photoModal').classList.remove('modal-open');
+        }
+
+        /* ==========================================================================
+           WEB AUDIO API ATMOSPHERIC SYNTHESIZER
+           ========================================================================== */
+        let audioCtx = null;
+        let isAudioPlaying = false;
+        let ambientOscs = [];
+        let ambientGain = null;
+
+        function toggleAtmosphericAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            isAudioPlaying = !isAudioPlaying;
+            const btn = document.getElementById('audioToggleBtn');
+            const btnText = document.getElementById('audioBtnText');
+
+            if (isAudioPlaying) {
+                btn.classList.remove('muted');
+                btnText.textContent = 'AMBIENCE: ON';
+                startCelestialDrone();
+            } else {
+                btn.classList.add('muted');
+                btnText.textContent = 'AMBIENCE: OFF';
+                stopCelestialDrone();
+            }
+        }
+
+        function startCelestialDrone() {
+            if (!audioCtx) return;
+            stopCelestialDrone();
+
+            ambientGain = audioCtx.createGain();
+            ambientGain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+            ambientGain.gain.exponentialRampToValueAtTime(0.12, audioCtx.currentTime + 2.5);
+            ambientGain.connect(audioCtx.destination);
+
+            // Ethereal Gryffindor / Celestial Chords: D minor add9 (D3, F3, A3, E4)
+            const freqs = [146.83, 174.61, 220.00, 329.63];
+            freqs.forEach(freq => {
+                const osc = audioCtx.createOscillator();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.setValueAtTime(650, audioCtx.currentTime);
+
+                osc.connect(filter);
+                filter.connect(ambientGain);
+                osc.start();
+                ambientOscs.push(osc);
+            });
+        }
+
+        function stopCelestialDrone() {
+            if (ambientGain && audioCtx) {
+                ambientGain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1);
+                setTimeout(() => {
+                    ambientOscs.forEach(o => {
+                        try { o.stop(); o.disconnect(); } catch(e){}
+                    });
+                    ambientOscs = [];
+                }, 1000);
+            }
+        }
+
+        function playSpellChime(freq = 880) {
+            if (!audioCtx || !isAudioPlaying) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(freq * 1.5, audioCtx.currentTime + 0.6);
+
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.8);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.85);
+        }
+
+        /* ==========================================================================
+           X-RAY LENS MOUSE TRACKING (ENGINE 5)
+           ========================================================================== */
+        function bindXRayMouseSpotlight() {
+            document.querySelectorAll('.xray-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    card.style.setProperty('--mouse-x', `${x}%`);
+                    card.style.setProperty('--mouse-y', `${y}%`);
+                });
+            });
+        }
+
+        /* ==========================================================================
+           MASTER 6-ENGINE SCROLL CHOREOGRAPHY LOOP (LERP PHYSICS)
+           ========================================================================== */
+        let currentScrollY = window.scrollY;
+        let targetScrollY = window.scrollY;
+
+        window.addEventListener('scroll', () => {
+            targetScrollY = window.scrollY;
+        }, { passive: true });
+
+        function updateMasterScrollEngines() {
+            currentScrollY += (targetScrollY - currentScrollY) * 0.11;
+
+            const vh = window.innerHeight;
+            const docHeight = Math.max(1, document.documentElement.scrollHeight - vh);
+            const totalPct = (currentScrollY / docHeight) * 100;
+            document.getElementById('globalProgressFill').style.width = `${totalPct}%`;
+
+            /* ----------------------------------------------------------------------
+               ENGINE 1: 3D Z-AXIS DEPTH-OF-FIELD CAMERA FLY-THROUGH
+               ---------------------------------------------------------------------- */
+            const eng1 = document.getElementById('engine1');
+            const eng1Rect = eng1.getBoundingClientRect();
+            const eng1Scrollable = eng1.offsetHeight - vh;
+            const eng1Progress = Math.max(0, Math.min(1, -eng1Rect.top / eng1Scrollable));
+
+            const astralSvg = document.getElementById('astralPortalSvg');
+            if (astralSvg) {
+                astralSvg.style.transform = `translateZ(-200px) rotate(${eng1Progress * 260}deg) scale(${1 + eng1Progress * 0.35})`;
+            }
+
+            const planes = document.querySelectorAll('.z-plane');
+            const planeCount = planes.length;
+            planes.forEach((plane, idx) => {
+                // Precise Camera Focus Index across all planes
+                const focalIndex = eng1Progress * (planeCount - 1);
+                const delta = focalIndex - idx;
+                const translateZ = delta * 1500;
+                const absDelta = Math.abs(delta);
+                // Depth-of-Field Blur: 0 blur at focus, blurs smoothly as it approaches or recedes
+                const blurPx = Math.max(0, (absDelta - 0.1) * 26);
+                // Cosine-style power falloff for clean cinematic reveal
+                const opacity = Math.max(0, Math.min(1, 1 - Math.pow(absDelta * 1.25, 2.2)));
+
+                plane.style.transform = `translate3d(0, 0, ${translateZ.toFixed(1)}px)`;
+                plane.style.filter = `blur(${blurPx.toFixed(1)}px)`;
+                plane.style.opacity = opacity.toFixed(3);
+                plane.classList.toggle('plane-active', absDelta < 0.28);
+            });
+
+            /* ----------------------------------------------------------------------
+               ENGINE 2: PINNED HORIZONTAL CHRONICLE & ROTATING TIME-TURNER
+               ---------------------------------------------------------------------- */
+            const eng2 = document.getElementById('engine2');
+            const eng2Rect = eng2.getBoundingClientRect();
+            const eng2Scrollable = eng2.offsetHeight - vh;
+            const eng2Progress = Math.max(0, Math.min(1, -eng2Rect.top / eng2Scrollable));
+
+            const hTrack = document.getElementById('horizontalTrack');
+            if (hTrack) {
+                const maxTranslateX = Math.max(0, hTrack.scrollWidth - window.innerWidth + (window.innerWidth * 0.12));
+                const currentX = -eng2Progress * maxTranslateX;
+                hTrack.style.transform = `translate3d(${currentX.toFixed(1)}px, 0, 0)`;
+
+                const ttOuter = document.getElementById('ttRingOuter');
+                const ttMid = document.getElementById('ttRingMid');
+                const ttHour = document.getElementById('ttHourglass');
+                if (ttOuter) ttOuter.style.transform = `rotate(${eng2Progress * 720}deg)`;
+                if (ttMid) ttMid.style.transform = `rotate(${-eng2Progress * 540}deg)`;
+                if (ttHour) ttHour.style.transform = `rotate(${eng2Progress * 360}deg)`;
+
+                const milestones = UNIVERSE_DATA[currentUniverse].loreMilestones;
+                const activeIdx = Math.min(milestones.length - 1, Math.floor(eng2Progress * milestones.length));
+                document.getElementById('activeEraYear').textContent = milestones[activeIdx].year;
+
+                // Highlight active cinema panel
+                const panels = hTrack.querySelectorAll('.lore-cinema-panel');
+                panels.forEach((p, i) => {
+                    p.classList.toggle('active-cinema-panel', i === activeIdx);
+                });
+
+                // Update timeline progress bar and nodes
+                const tFill = document.getElementById('timelineProgressBar');
+                if (tFill) {
+                    tFill.style.width = `${(eng2Progress * 100).toFixed(1)}%`;
+                }
+                const tNodes = document.querySelectorAll('.timeline-node');
+                tNodes.forEach((node, i) => {
+                    node.classList.toggle('active-node', i === activeIdx);
+                });
+            }
+
+            /* ----------------------------------------------------------------------
+               ENGINE 3: 3D ORIGAMI DECK UNFOLDING
+               ---------------------------------------------------------------------- */
+            document.querySelectorAll('.artifact-bento-card').forEach((card, i) => {
+                const r = card.getBoundingClientRect();
+                if (r.top < vh * 0.85) {
+                    setTimeout(() => card.classList.add('deck-dealt'), i * 85);
+                }
+            });
+
+            /* ----------------------------------------------------------------------
+               ENGINE 4: ORBITAL CONSTELLATION WEB SYNC
+               ---------------------------------------------------------------------- */
+            const relCards = document.querySelectorAll('.rel-story-card');
+            let activeRelIdx = 0;
+            relCards.forEach((rc, i) => {
+                const r = rc.getBoundingClientRect();
+                if (r.top < vh * 0.55 && r.bottom > vh * 0.25) {
+                    activeRelIdx = i;
+                }
+            });
+            relCards.forEach((rc, i) => rc.classList.toggle('active-rel-card', i === activeRelIdx));
+            [0, 1, 2, 3].forEach(i => {
+                const link = document.getElementById(`link-${i}`);
+                const node = document.getElementById(`node-${i}`);
+                if (link) link.classList.toggle('active-link', i === activeRelIdx);
+                if (node) node.classList.toggle('active-node', i === activeRelIdx);
+            });
+            const activeRelObj = UNIVERSE_DATA[currentUniverse].relationships[activeRelIdx];
+            if (activeRelObj) {
+                document.getElementById('activeStarLabel').textContent = `NODE: ${activeRelObj.name.toUpperCase()}`;
+            }
+
+            /* ----------------------------------------------------------------------
+               ENGINE 6: WORD-BY-WORD KINETIC QUOTE ILLUMINATION
+               ---------------------------------------------------------------------- */
+            const kineticStage = document.getElementById('kineticStage');
+            if (kineticStage) {
+                const kRect = kineticStage.getBoundingClientRect();
+                const kProgress = Math.max(0, Math.min(1, (vh * 0.85 - kRect.top) / (vh * 0.65)));
+                const wordSpans = document.querySelectorAll('.k-word');
+                const litCount = Math.floor(kProgress * wordSpans.length);
+                wordSpans.forEach((span, idx) => {
+                    const isLit = idx <= litCount;
+                    span.classList.toggle('lit', isLit && span.dataset.gold !== 'true');
+                    span.classList.toggle('lit-gold', isLit && span.dataset.gold === 'true');
+                });
+            }
+
+            /* ----------------------------------------------------------------------
+               HUD & NAV STATUS UPDATE
+               ---------------------------------------------------------------------- */
+            const enginesMeta = [
+                { id: 'engine1', code: 'ENGINE 01 // 3D Z-DOF', name: '3D Z-Axis Depth-of-Field Camera' },
+                { id: 'engine2', code: 'ENGINE 02 // TIME-TURNER', name: 'Pinned Horizontal Cinema & Time-Turner' },
+                { id: 'engine3', code: 'ENGINE 03 // DECK & PATRONUS', name: '3D Deck Unfold & Live Patronus Simulator' },
+                { id: 'engine4', code: 'ENGINE 04 // CONSTELLATION', name: 'Interactive Orbital Relationship Web' },
+                { id: 'engine5', code: 'ENGINE 05 // X-RAY LENS', name: 'Dual-Layer X-Ray Flaws Spotlight' },
+                { id: 'engine6', code: 'ENGINE 06 // KINETIC LORE', name: 'Scroll-Scrubbed Kinetic Typography' }
+            ];
+
+            let currentEngineIdx = 0;
+            enginesMeta.forEach((em, idx) => {
+                const el = document.getElementById(em.id);
+                if (el && el.getBoundingClientRect().top <= vh * 0.45) {
+                    currentEngineIdx = idx;
+                }
+            });
+
+            document.getElementById('hudCode').textContent = enginesMeta[currentEngineIdx].code;
+            document.getElementById('hudName').textContent = enginesMeta[currentEngineIdx].name;
+            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === currentEngineIdx);
+            });
+
+            requestAnimationFrame(updateMasterScrollEngines);
+        }
+
+        /* ==========================================================================
+           INTERACTIVE PATRONUS OTTER & WAND SPARK CANVASES (ENGINE 3)
+           ========================================================================== */
+        const patronusCanvas = document.getElementById('patronus-canvas');
+        const pCtx = patronusCanvas.getContext('2d');
+        let patronusParticles = [];
+        let otterTarget = { x: 180, y: 120 };
+        let otterPos = { x: 180, y: 120 };
+
+        const wandCanvas = document.getElementById('wand-canvas');
+        const wCtx = wandCanvas.getContext('2d');
+        let wandSparks = [];
+
+        function resizeSpellCanvases() {
+            if (patronusCanvas.parentElement) {
+                patronusCanvas.width = patronusCanvas.parentElement.clientWidth;
+                patronusCanvas.height = patronusCanvas.parentElement.clientHeight;
+                otterTarget.x = patronusCanvas.width * 0.5;
+                otterTarget.y = patronusCanvas.height * 0.5;
+            }
+            if (wandCanvas.parentElement) {
+                wandCanvas.width = wandCanvas.parentElement.clientWidth;
+                wandCanvas.height = wandCanvas.parentElement.clientHeight;
+            }
+        }
+
+        document.getElementById('patronusStage').addEventListener('mousemove', e => {
+            const r = patronusCanvas.getBoundingClientRect();
+            otterTarget.x = e.clientX - r.left;
+            otterTarget.y = e.clientY - r.top;
+            for (let i = 0; i < 3; i++) {
+                patronusParticles.push({
+                    x: otterPos.x + (Math.random() - 0.5) * 16,
+                    y: otterPos.y + (Math.random() - 0.5) * 16,
+                    vx: (Math.random() - 0.5) * 1.8,
+                    vy: (Math.random() - 0.5) * 1.8,
+                    radius: Math.random() * 4 + 1.5,
+                    alpha: 0.95
+                });
+            }
+        });
+
+        function triggerPatronusBurst() {
+            playSpellChime(1046.50); // High C
+            for (let i = 0; i < 60; i++) {
+                const angle = (Math.PI * 2 * i) / 60;
+                const speed = Math.random() * 4.5 + 1.5;
+                patronusParticles.push({
+                    x: otterPos.x,
+                    y: otterPos.y,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    radius: Math.random() * 5 + 2,
+                    alpha: 1
+                });
+            }
+        }
+
+        document.getElementById('wandStage').addEventListener('mousemove', e => {
+            const r = wandCanvas.getBoundingClientRect();
+            const mx = e.clientX - r.left;
+            const my = e.clientY - r.top;
+            for (let i = 0; i < 4; i++) {
+                wandSparks.push({
+                    x: mx,
+                    y: my,
+                    vx: (Math.random() - 0.5) * 3.5,
+                    vy: (Math.random() - 0.5) * 3.5 - 1,
+                    size: Math.random() * 3.5 + 1,
+                    alpha: 1
+                });
+            }
+        });
+
+        function triggerWandSparks() {
+            playSpellChime(784.00); // G5
+            const cx = wandCanvas.width * 0.65;
+            const cy = wandCanvas.height * 0.35;
+            for (let i = 0; i < 55; i++) {
+                const a = Math.random() * Math.PI * 2;
+                const s = Math.random() * 5 + 1.2;
+                wandSparks.push({
+                    x: cx,
+                    y: cy,
+                    vx: Math.cos(a) * s,
+                    vy: Math.sin(a) * s,
+                    size: Math.random() * 4 + 1.5,
+                    alpha: 1
+                });
+            }
+        }
+
+        let spellTime = 0;
+        function animateSpellSimulators() {
+            spellTime += 0.045;
+
+            // 1. Patronus
+            pCtx.clearRect(0, 0, patronusCanvas.width, patronusCanvas.height);
+            const idleX = patronusCanvas.width * 0.5 + Math.cos(spellTime) * 95;
+            const idleY = patronusCanvas.height * 0.5 + Math.sin(spellTime * 2) * 42;
+            const destX = otterTarget.x || idleX;
+            const destY = otterTarget.y || idleY;
+
+            otterPos.x += (destX - otterPos.x) * 0.08;
+            otterPos.y += (destY - otterPos.y) * 0.08;
+
+            patronusParticles.push({
+                x: otterPos.x + Math.cos(spellTime * 3) * 8,
+                y: otterPos.y + Math.sin(spellTime * 3) * 8,
+                vx: (Math.random() - 0.5) * 0.8,
+                vy: -Math.random() * 0.9,
+                radius: Math.random() * 3.5 + 1.5,
+                alpha: 0.75
+            });
+
+            const grad = pCtx.createRadialGradient(otterPos.x, otterPos.y, 2, otterPos.x, otterPos.y, 52);
+            grad.addColorStop(0, '#ffffff');
+            grad.addColorStop(0.35, '#6ce5ff');
+            grad.addColorStop(1, 'rgba(108, 229, 255, 0)');
+            pCtx.fillStyle = grad;
+            pCtx.beginPath();
+            pCtx.arc(otterPos.x, otterPos.y, 52, 0, Math.PI * 2);
+            pCtx.fill();
+
+            for (let i = patronusParticles.length - 1; i >= 0; i--) {
+                const pt = patronusParticles[i];
+                pt.x += pt.vx;
+                pt.y += pt.vy;
+                pt.alpha -= 0.018;
+                if (pt.alpha <= 0) {
+                    patronusParticles.splice(i, 1);
+                    continue;
+                }
+                pCtx.fillStyle = `rgba(145, 238, 255, ${pt.alpha})`;
+                pCtx.beginPath();
+                pCtx.arc(pt.x, pt.y, pt.radius, 0, Math.PI * 2);
+                pCtx.fill();
+            }
+
+            // 2. Wand
+            wCtx.clearRect(0, 0, wandCanvas.width, wandCanvas.height);
+            wCtx.save();
+            wCtx.strokeStyle = '#e8b959';
+            wCtx.lineWidth = 5;
+            wCtx.lineCap = 'round';
+            wCtx.beginPath();
+            wCtx.moveTo(wandCanvas.width * 0.22, wandCanvas.height * 0.75);
+            wCtx.lineTo(wandCanvas.width * 0.68, wandCanvas.height * 0.32);
+            wCtx.stroke();
+
+            const tipX = wandCanvas.width * 0.68;
+            const tipY = wandCanvas.height * 0.32;
+            const tipGrad = wCtx.createRadialGradient(tipX, tipY, 2, tipX, tipY, 36);
+            tipGrad.addColorStop(0, '#fff');
+            tipGrad.addColorStop(0.4, '#e8b959');
+            tipGrad.addColorStop(1, 'rgba(232, 185, 89, 0)');
+            wCtx.fillStyle = tipGrad;
+            wCtx.beginPath();
+            wCtx.arc(tipX, tipY, 36, 0, Math.PI * 2);
+            wCtx.fill();
+            wCtx.restore();
+
+            if (Math.random() > 0.35) {
+                wandSparks.push({
+                    x: tipX,
+                    y: tipY,
+                    vx: (Math.random() - 0.5) * 2.2,
+                    vy: (Math.random() - 0.5) * 2.2,
+                    size: Math.random() * 3 + 1,
+                    alpha: 0.9
+                });
+            }
+
+            for (let i = wandSparks.length - 1; i >= 0; i--) {
+                const sp = wandSparks[i];
+                sp.x += sp.vx;
+                sp.y += sp.vy;
+                sp.alpha -= 0.022;
+                if (sp.alpha <= 0) {
+                    wandSparks.splice(i, 1);
+                    continue;
+                }
+                wCtx.fillStyle = `rgba(232, 185, 89, ${sp.alpha})`;
+                wCtx.beginPath();
+                wCtx.arc(sp.x, sp.y, sp.size, 0, Math.PI * 2);
+                wCtx.fill();
+            }
+
+            requestAnimationFrame(animateSpellSimulators);
+        }
+
+        /* ==========================================================================
+           AMBIENT BOKEH & CURSOR FOLLOWER
+           ========================================================================== */
+        const ambientCanvas = document.getElementById('ambient-canvas');
+        const aCtx = ambientCanvas.getContext('2d');
+        const cursorCanvas = document.getElementById('cursor-canvas');
+        const cCtx = cursorCanvas.getContext('2d');
+        const cursorRing = document.getElementById('cursorRing');
+
+        let bokehOrbs = [];
+        let cursorDust = [];
+
+        function resizeGlobalCanvases() {
+            ambientCanvas.width = window.innerWidth;
+            ambientCanvas.height = window.innerHeight;
+            cursorCanvas.width = window.innerWidth;
+            cursorCanvas.height = window.innerHeight;
+            resizeSpellCanvases();
+        }
+        window.addEventListener('resize', resizeGlobalCanvases);
+
+        function initBokehOrbs() {
+            bokehOrbs = [];
+            for (let i = 0; i < 28; i++) {
+                bokehOrbs.push({
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    r: Math.random() * 65 + 20,
+                    vx: (Math.random() - 0.5) * 0.35,
+                    vy: -(Math.random() * 0.35 + 0.1),
+                    alpha: Math.random() * 0.14 + 0.03
+                });
+            }
+        }
+
+        window.addEventListener('mousemove', e => {
+            cursorRing.style.left = `${e.clientX}px`;
+            cursorRing.style.top = `${e.clientY}px`;
+            cursorDust.push({
+                x: e.clientX,
+                y: e.clientY,
+                vx: (Math.random() - 0.5) * 1.5,
+                vy: (Math.random() - 0.5) * 1.5 + 0.5,
+                size: Math.random() * 3 + 1,
+                alpha: 0.85
+            });
+        });
+
+        // Hover scale on interactive elements
+        document.addEventListener('mouseover', e => {
+            if (e.target.closest('button, a, .real-card, .xray-card, .hero-photo-showcase, .artifact-bento-card, .orbit-node-group')) {
+                cursorRing.classList.add('cursor-hover');
+            } else {
+                cursorRing.classList.remove('cursor-hover');
+            }
+        });
+
+        function animateGlobalAtmosphere() {
+            aCtx.clearRect(0, 0, ambientCanvas.width, ambientCanvas.height);
+            bokehOrbs.forEach(orb => {
+                orb.x += orb.vx;
+                orb.y += orb.vy;
+                if (orb.y < -orb.r) orb.y = ambientCanvas.height + orb.r;
+                if (orb.x < -orb.r) orb.x = ambientCanvas.width + orb.r;
+                if (orb.x > ambientCanvas.width + orb.r) orb.x = -orb.r;
+
+                const g = aCtx.createRadialGradient(orb.x, orb.y, 1, orb.x, orb.y, orb.r);
+                const rgb = currentUniverse === 'hermione' ? '232, 185, 89' : '255, 42, 84';
+                g.addColorStop(0, `rgba(${rgb}, ${orb.alpha})`);
+                g.addColorStop(1, `rgba(${rgb}, 0)`);
+                aCtx.fillStyle = g;
+                aCtx.beginPath();
+                aCtx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
+                aCtx.fill();
+            });
+
+            cCtx.clearRect(0, 0, cursorCanvas.width, cursorCanvas.height);
+            for (let i = cursorDust.length - 1; i >= 0; i--) {
+                const d = cursorDust[i];
+                d.x += d.vx;
+                d.y += d.vy;
+                d.alpha -= 0.03;
+                if (d.alpha <= 0) {
+                    cursorDust.splice(i, 1);
+                    continue;
+                }
+                cCtx.fillStyle = currentUniverse === 'hermione'
+                    ? `rgba(232, 185, 89, ${d.alpha})`
+                    : `rgba(0, 240, 255, ${d.alpha})`;
+                cCtx.beginPath();
+                cCtx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+                cCtx.fill();
+            }
+
+            requestAnimationFrame(animateGlobalAtmosphere);
+        }
+
+        window.onload = () => {
+            renderUniverse('hermione');
+            resizeGlobalCanvases();
+            initBokehOrbs();
+            animateGlobalAtmosphere();
+            animateSpellSimulators();
+            updateMasterScrollEngines();
+        };
+    </script>
+</body>
+</html>
